@@ -135,6 +135,11 @@
       "error": "Por favor complete todos los campos."
     }
   },
+  "social": {
+    "title": "Redes sociales",
+    "instagram": "Instagram",
+    "facebook": "Facebook"
+  },
   "footer": {
     "rights": "Todos los derechos reservados.",
     "tagline": "Evaluación sensorial y ciencia del consumidor",

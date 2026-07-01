@@ -135,6 +135,11 @@
       "error": "Please fill in all fields."
     }
   },
+  "social": {
+    "title": "Social media",
+    "instagram": "Instagram",
+    "facebook": "Facebook"
+  },
   "footer": {
     "rights": "All rights reserved.",
     "tagline": "Sensory evaluation & consumer science",

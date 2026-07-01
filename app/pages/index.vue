@@ -70,6 +70,7 @@ const homeHighlights = useLocaleArray<{ stat: string; label: string }>('home.hig
           <p>
             <a :href="`mailto:${t('contact.email')}`">{{ t('contact.email') }}</a>
           </p>
+          <LayoutSocialLinks variant="compact" :show-label="false" />
         </div>
         <div class="contact-strip__cta">
           <h2>{{ t('home.finalCtaTitle') }}</h2>

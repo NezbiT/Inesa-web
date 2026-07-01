@@ -19,7 +19,11 @@ const links = computed(() => [
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <img src="/logo-inesa.png" :alt="t('site.title')" class="footer-logo" />
+        <BrandingLogoInesaAnimated
+          variant="full"
+          :title="t('site.title')"
+          class="footer-logo"
+        />
         <p class="footer-title">{{ t('site.title') }}</p>
         <p class="footer-tagline">{{ t('footer.tagline') }}</p>
       </div>
@@ -37,6 +41,7 @@ const links = computed(() => [
         <p>
           <a :href="`mailto:${t('contact.email')}`">{{ t('contact.email') }}</a>
         </p>
+        <LayoutSocialLinks variant="footer" :show-label="true" />
       </div>
     </div>
     <div class="footer-bottom">

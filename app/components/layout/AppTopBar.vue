@@ -28,7 +28,7 @@ function closeMenu() {
   <header class="topbar">
     <div class="topbar-inner">
       <NuxtLink :to="localePath('/')" class="brand" @click="closeMenu">
-        <img src="/logo-inesa.png" alt="" class="brand-emblem" width="40" height="40" />
+        <BrandingLogoInesaAnimated variant="emblem" class="brand-emblem" />
         <div class="brand-text">
           <span class="brand-title">{{ t('site.title') }}</span>
         </div>

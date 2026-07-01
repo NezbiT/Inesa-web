@@ -16,12 +16,10 @@ const { t } = useI18n()
       </div>
 
       <div class="site-hero__visual">
-        <img
-          src="/logo-inesa.png"
-          :alt="t('site.title')"
+        <BrandingLogoInesaAnimated
+          variant="full"
+          :title="t('site.title')"
           class="site-hero__logo"
-          width="320"
-          height="275"
         />
       </div>
     </div>

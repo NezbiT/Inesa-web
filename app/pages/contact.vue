@@ -34,7 +34,7 @@ function submitForm() {
       <div class="contact-layout">
         <section class="panel contact-info">
           <div class="contact-info__logo">
-            <img src="/logo-inesa.png" :alt="t('site.title')">
+            <BrandingLogoInesaAnimated variant="full" :title="t('site.title')" />
           </div>
           <h2>{{ t('contact.infoTitle') }}</h2>
           <ul class="contact-details">
@@ -55,6 +55,10 @@ function submitForm() {
               >
                 {{ t('contact.location') }}
               </a>
+            </li>
+            <li>
+              <span class="label">{{ t('social.title') }}</span>
+              <LayoutSocialLinks variant="compact" :show-label="false" />
             </li>
           </ul>
         </section>

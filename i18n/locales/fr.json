@@ -135,6 +135,11 @@
       "error": "Veuillez remplir tous les champs."
     }
   },
+  "social": {
+    "title": "Réseaux sociaux",
+    "instagram": "Instagram",
+    "facebook": "Facebook"
+  },
   "footer": {
     "rights": "Tous droits réservés.",
     "tagline": "Évaluation sensorielle et science du consommateur",
