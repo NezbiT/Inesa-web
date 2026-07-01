@@ -5,7 +5,15 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/i18n'],
 
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/lms.css'],
+
+  runtimeConfig: {
+    inesaJwtSecret: process.env.INESA_JWT_SECRET || 'inesa-dev-secret-change-me',
+    inesaAdminEmail: process.env.INESA_ADMIN_EMAIL || 'admin@inesa.com',
+    inesaAdminPassword: process.env.INESA_ADMIN_PASSWORD || 'admin123',
+    openaiApiKey: process.env.OPENAI_API_KEY || '',
+    public: {},
+  },
 
   app: {
     head: {

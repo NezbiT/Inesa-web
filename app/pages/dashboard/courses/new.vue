@@ -1,0 +1,103 @@
+<script setup lang="ts">
+definePageMeta({ layout: 'dashboard', middleware: 'admin' })
+
+const { createCourse } = useLms()
+
+const title = ref('')
+const description = ref('')
+const pdfFile = ref<File | null>(null)
+const loading = ref(false)
+const error = ref('')
+
+function onFileChange(e: Event) {
+  const input = e.target as HTMLInputElement
+  pdfFile.value = input.files?.[0] ?? null
+}
+
+async function onSubmit() {
+  error.value = ''
+  if (!title.value.trim()) {
+    error.value = 'El título es obligatorio.'
+    return
+  }
+
+  loading.value = true
+  try {
+    const form = new FormData()
+    form.append('title', title.value.trim())
+    form.append('description', description.value.trim())
+    if (pdfFile.value) form.append('pdf', pdfFile.value)
+
+    const { course } = await createCourse(form)
+    await navigateTo(`/dashboard/courses/${course.id}`)
+  } catch (e: unknown) {
+    error.value = 'No se pudo crear el curso. Intenta de nuevo.'
+  } finally {
+    loading.value = false
+  }
+}
+</script>
+
+<template>
+  <div>
+    <header class="lms-page-header">
+      <h1>Nuevo curso</h1>
+      <p>Sube un PDF y la IA generará lecciones automáticamente a partir del material.</p>
+    </header>
+
+    <section class="lms-card">
+      <p v-if="error" class="lms-alert lms-alert--error">{{ error }}</p>
+
+      <form class="lms-form" @submit.prevent="onSubmit">
+        <label>
+          Título del curso
+          <input v-model="title" type="text" required placeholder="Ej. Evaluación sensorial básica" />
+        </label>
+
+        <label>
+          Descripción
+          <textarea v-model="description" rows="3" placeholder="Breve descripción del curso" />
+        </label>
+
+        <label>
+          Material PDF (opcional)
+          <input type="file" accept=".pdf,application/pdf" @change="onFileChange" />
+        </label>
+
+        <div class="lms-form-actions">
+          <button type="submit" class="lms-btn lms-btn--primary" :disabled="loading">
+            {{ loading ? 'Creando con IA…' : 'Crear curso' }}
+          </button>
+          <NuxtLink to="/dashboard/courses" class="lms-btn lms-btn--secondary">
+            Cancelar
+          </NuxtLink>
+        </div>
+      </form>
+    </section>
+  </div>
+</template>
+
+<style scoped>
+.lms-page-header {
+  margin-bottom: 1.6rem;
+}
+
+.lms-page-header h1 {
+  font-family: var(--font-sans);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.lms-page-header p {
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 1.3rem;
+}
+
+.lms-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+</style>

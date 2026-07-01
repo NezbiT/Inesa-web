@@ -11,6 +11,7 @@ const navItems = computed(() => [
   { name: 'about', label: t('nav.about'), to: '/about' },
   { name: 'services', label: t('nav.services'), to: '/services' },
   { name: 'courses', label: t('nav.courses'), to: '/courses' },
+  { name: 'academy', label: 'Academy', to: '/academy' },
   { name: 'gallery', label: t('nav.gallery'), to: '/gallery' },
   { name: 'contact', label: t('nav.contact'), to: '/contact' },
 ])

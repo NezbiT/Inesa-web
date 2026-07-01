@@ -48,12 +48,12 @@ const features = useLocaleArray<{ icon: string; title: string; text: string }>('
           <p>{{ t('courses.ctaText') }}</p>
         </div>
         <div class="courses-cta__actions">
-          <NuxtLink :to="localePath('/contact')" class="btn btn-primary">
-            {{ t('courses.contactCta') }}
+          <NuxtLink :to="localePath('/academy')" class="btn btn-primary">
+            INESA Academy
           </NuxtLink>
-          <a :href="`mailto:${t('contact.email')}`" class="btn btn-secondary">
-            {{ t('courses.emailCta') }}
-          </a>
+          <NuxtLink :to="localePath('/academy/login')" class="btn btn-secondary">
+            Iniciar sesión
+          </NuxtLink>
         </div>
       </section>
     </div>
