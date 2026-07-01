@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Quiénes Somos",
+    "services": "Servicios",
+    "gallery": "Galería",
+    "courses": "Capacitaciones",
+    "contact": "Contáctenos",
+    "menu": "Menú",
+    "close": "Cerrar"
+  },
+  "site": {
+    "title": "INESA~C.A",
+    "subtitle": "Instituto de Evaluación Sensorial Alimentos"
+  },
+  "home": {
+    "title": "Bienvenidos",
+    "heroTitle": "Excelencia en evaluación sensorial y ciencia del consumidor",
+    "paragraph1": "Somos un instituto que ofrece un amplio rango de servicios enfocados a la evaluación sensorial y a la ciencia del consumidor, en la industria alimentaria y productos de consumo.",
+    "paragraph2": "INESA~CA es reconocida por su experticia y su contribución en la temática a través de investigaciones, publicaciones, cursos internacionales y consultorías al sector empresarial.",
+    "paragraph3": "Contacte con INESA~CA para explorar cómo nuestros servicios pueden en su empresa perfeccionar su producto aportando mejorías para su cliente.",
+    "paragraph4": "Les invitamos a conocer nuestra experiencia y habilidades en la resolución de problemas empleando el análisis sensorial.",
+    "cta": "Contáctenos",
+    "servicesCta": "Ver servicios",
+    "servicesLink": "Todos los servicios",
+    "aboutLink": "Conocer más",
+    "galleryTitle": "Galería de eventos",
+    "galleryLink": "Ver las 118 fotos",
+    "contactCardTitle": "Contacto directo",
+    "finalCtaTitle": "¿Listo para mejorar su producto?",
+    "finalCtaText": "Nuestro equipo le brinda atención personalizada y profesional para resolver desafíos sensoriales en su empresa.",
+    "highlights": [
+      { "stat": "118+", "label": "Fotos de eventos y laboratorio" },
+      { "stat": "3", "label": "Idiomas disponibles" },
+      { "stat": "100%", "label": "Enfoque personalizado" }
+    ]
+  },
+  "about": {
+    "title": "Quiénes Somos",
+    "subtitle": "Instituto especializado en evaluación sensorial y ciencia del consumidor",
+    "missionTitle": "Nuestra misión",
+    "approachTitle": "Nuestro enfoque",
+    "valuesTitle": "Valores institucionales",
+    "paragraph1": "Somos un instituto que ofrece un amplio rango de servicios enfocados a la evaluación sensorial y a la ciencia del consumidor, en la industria alimentaria y productos de consumo, donde usted recibirá atención personalizada y profesional.",
+    "paragraph2": "INESA~CA es reconocida por su experticia y su contribución en la temática a través de investigaciones, publicaciones, cursos internacionales y consultorías al sector empresarial.",
+    "paragraph3": "Contacte con INESA~CA para explorar cómo nuestros servicios pueden en su empresa perfeccionar su producto aportando mejorías para su cliente.",
+    "paragraph4": "Les invitamos a conocer nuestra experiencia y habilidades en la resolución de problemas empleando el análisis sensorial a través de nuestro sitio y noticias en las redes sociales.",
+    "values": [
+      { "title": "Rigor científico", "text": "Metodologías validadas y análisis basados en evidencia." },
+      { "title": "Atención personalizada", "text": "Soluciones adaptadas a cada empresa y producto." },
+      { "title": "Experiencia internacional", "text": "Formación, investigación y consultoría con alcance global." }
+    ]
+  },
+  "services": {
+    "title": "Servicios",
+    "intro": "Soluciones integrales para la industria alimentaria y de consumo masivo.",
+    "processTitle": "Cómo trabajamos",
+    "process": [
+      { "title": "Diagnóstico", "text": "Identificamos el desafío sensorial o de consumidor de su producto." },
+      { "title": "Diseño metodológico", "text": "Seleccionamos pruebas, paneles y protocolos adecuados." },
+      { "title": "Ejecución y análisis", "text": "Realizamos la evaluación y entregamos resultados accionables." },
+      { "title": "Recomendaciones", "text": "Proponemos mejoras concretas para su producto y su cliente." }
+    ],
+    "items": [
+      { "icon": "◉", "title": "Evaluación sensorial", "description": "Análisis discriminativo, descriptivo y de aceptación para optimizar atributos del producto." },
+      { "icon": "◎", "title": "Ciencia del consumidor", "description": "Estudios de preferencia, percepción y comportamiento de compra." },
+      { "icon": "◈", "title": "Consultoría empresarial", "description": "Asesoría especializada para la industria alimentaria y productos de consumo." },
+      { "icon": "◇", "title": "Capacitación internacional", "description": "Cursos y seminarios en evaluación sensorial para equipos técnicos y directivos." },
+      { "icon": "◆", "title": "Investigación aplicada", "description": "Publicaciones y proyectos de investigación en temática sensorial." },
+      { "icon": "▣", "title": "Resolución de problemas", "description": "Diagnóstico y solución de desafíos sensoriales en desarrollo de producto." }
+    ]
+  },
+  "courses": {
+    "title": "Capacitaciones",
+    "subtitle": "Formación en evaluación sensorial y ciencia del consumidor",
+    "badge": "Próximamente",
+    "introTitle": "Plataforma de capacitaciones online",
+    "intro": "Estamos desarrollando una plataforma de aprendizaje en línea para compartir el conocimiento y la experiencia de INESA~CA.",
+    "description": "Pronto podrá acceder a cursos, módulos y recursos especializados en evaluación sensorial desde cualquier lugar del mundo.",
+    "platformLabel": "INESA Learning",
+    "featuresTitle": "Qué incluirá la plataforma",
+    "features": [
+      {
+        "icon": "◉",
+        "title": "Cursos en línea",
+        "text": "Módulos interactivos sobre metodologías sensoriales y ciencia del consumidor."
+      },
+      {
+        "icon": "◎",
+        "title": "Contenido especializado",
+        "text": "Material desarrollado por expertos en paneles, análisis y consultoría."
+      },
+      {
+        "icon": "◈",
+        "title": "Certificación profesional",
+        "text": "Programas de formación con estándares internacionales para equipos técnicos."
+      }
+    ],
+    "ctaTitle": "¿Interesado en las capacitaciones?",
+    "ctaText": "Contáctenos para recibir información cuando la plataforma esté disponible.",
+    "contactCta": "Contáctenos",
+    "emailCta": "Enviar correo"
+  },
+  "gallery": {
+    "title": "Galería",
+    "intro": "Seminarios, conferencias, análisis sensorial y actividades institucionales de INESA.",
+    "count": "{count} fotos",
+    "photoAlt": "Foto INESA {n}",
+    "lightbox": "Visor de fotos",
+    "close": "Cerrar",
+    "categories": {
+      "all": "Todas",
+      "featured": "Destacadas",
+      "events": "Eventos",
+      "analysis": "Análisis sensorial",
+      "institutional": "Institucional"
+    }
+  },
+  "contact": {
+    "title": "Contáctenos",
+    "subtitle": "Estamos listos para atender su consulta",
+    "infoTitle": "Información de contacto",
+    "formTitle": "Envíenos un mensaje",
+    "nameLabel": "Responsable",
+    "locationLabel": "Ubicación",
+    "name": "Yamila Alvarez Coureaux",
+    "email": "yamilaec{'@'}yahoo.com",
+    "location": "Houston, TX, EE.UU.",
+    "form": {
+      "name": "Su nombre",
+      "email": "Su correo electrónico",
+      "message": "Su mensaje",
+      "send": "Enviar mensaje",
+      "success": "¡Gracias! Su mensaje ha sido preparado.",
+      "error": "Por favor complete todos los campos."
+    }
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "tagline": "Evaluación sensorial y ciencia del consumidor",
+    "navigation": "Navegación",
+    "contact": "Contacto"
+  },
+  "lang": {
+    "label": "Idioma",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  }
+}

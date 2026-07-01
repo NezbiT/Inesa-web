@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "gallery": "Gallery",
+    "courses": "Training",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "site": {
+    "title": "INESA~C.A",
+    "subtitle": "Food Sensory Evaluation Institute"
+  },
+  "home": {
+    "title": "Welcome",
+    "heroTitle": "Excellence in sensory evaluation and consumer science",
+    "paragraph1": "We are an institute offering a wide range of services focused on sensory evaluation and consumer science in the food industry and consumer products.",
+    "paragraph2": "INESA~CA is recognized for its expertise and contribution to the field through research, publications, international courses, and consulting for the business sector.",
+    "paragraph3": "Contact INESA~CA to explore how our services can help your company perfect your product, bringing improvements for your customers.",
+    "paragraph4": "We invite you to discover our experience and skills in problem-solving using sensory analysis.",
+    "cta": "Contact us",
+    "servicesCta": "View services",
+    "servicesLink": "All services",
+    "aboutLink": "Learn more",
+    "galleryTitle": "Event gallery",
+    "galleryLink": "View all 118 photos",
+    "contactCardTitle": "Direct contact",
+    "finalCtaTitle": "Ready to improve your product?",
+    "finalCtaText": "Our team provides personalized and professional support to solve sensory challenges in your business.",
+    "highlights": [
+      { "stat": "118+", "label": "Event and lab photos" },
+      { "stat": "3", "label": "Languages available" },
+      { "stat": "100%", "label": "Personalized approach" }
+    ]
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Institute specialized in sensory evaluation and consumer science",
+    "missionTitle": "Our mission",
+    "approachTitle": "Our approach",
+    "valuesTitle": "Institutional values",
+    "paragraph1": "We are an institute offering a wide range of services focused on sensory evaluation and consumer science in the food industry and consumer products, where you will receive personalized and professional attention.",
+    "paragraph2": "INESA~CA is recognized for its expertise and contribution to the field through research, publications, international courses, and consulting for the business sector.",
+    "paragraph3": "Contact INESA~CA to explore how our services can help your company perfect your product, bringing improvements for your customers.",
+    "paragraph4": "We invite you to discover our experience and skills in problem-solving using sensory analysis through our website and social media news.",
+    "values": [
+      { "title": "Scientific rigor", "text": "Validated methodologies and evidence-based analysis." },
+      { "title": "Personalized attention", "text": "Solutions tailored to each company and product." },
+      { "title": "International experience", "text": "Training, research, and consulting with global reach." }
+    ]
+  },
+  "services": {
+    "title": "Services",
+    "intro": "Comprehensive solutions for the food and consumer goods industry.",
+    "processTitle": "How we work",
+    "process": [
+      { "title": "Diagnosis", "text": "We identify the sensory or consumer challenge of your product." },
+      { "title": "Method design", "text": "We select appropriate tests, panels, and protocols." },
+      { "title": "Execution and analysis", "text": "We conduct the evaluation and deliver actionable results." },
+      { "title": "Recommendations", "text": "We propose concrete improvements for your product and customers." }
+    ],
+    "items": [
+      { "icon": "◉", "title": "Sensory evaluation", "description": "Discriminative, descriptive, and acceptance analysis to optimize product attributes." },
+      { "icon": "◎", "title": "Consumer science", "description": "Studies on preference, perception, and purchasing behavior." },
+      { "icon": "◈", "title": "Business consulting", "description": "Specialized advisory for the food industry and consumer products." },
+      { "icon": "◇", "title": "International training", "description": "Courses and seminars in sensory evaluation for technical and executive teams." },
+      { "icon": "◆", "title": "Applied research", "description": "Publications and research projects in sensory science." },
+      { "icon": "▣", "title": "Problem solving", "description": "Diagnosis and resolution of sensory challenges in product development." }
+    ]
+  },
+  "courses": {
+    "title": "Training",
+    "subtitle": "Education in sensory evaluation and consumer science",
+    "badge": "Coming soon",
+    "introTitle": "Online training platform",
+    "intro": "We are building an online learning platform to share INESA~CA's knowledge and expertise.",
+    "description": "Soon you will access courses, modules, and specialized resources in sensory evaluation from anywhere in the world.",
+    "platformLabel": "INESA Learning",
+    "featuresTitle": "What the platform will include",
+    "features": [
+      {
+        "icon": "◉",
+        "title": "Online courses",
+        "text": "Interactive modules on sensory methodologies and consumer science."
+      },
+      {
+        "icon": "◎",
+        "title": "Specialized content",
+        "text": "Materials developed by experts in panels, analysis, and consulting."
+      },
+      {
+        "icon": "◈",
+        "title": "Professional certification",
+        "text": "Training programs with international standards for technical teams."
+      }
+    ],
+    "ctaTitle": "Interested in our training programs?",
+    "ctaText": "Contact us to receive updates when the platform launches.",
+    "contactCta": "Contact us",
+    "emailCta": "Send email"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "intro": "Seminars, conferences, sensory analysis, and institutional activities at INESA.",
+    "count": "{count} photos",
+    "photoAlt": "INESA photo {n}",
+    "lightbox": "Photo viewer",
+    "close": "Close",
+    "categories": {
+      "all": "All",
+      "featured": "Featured",
+      "events": "Events",
+      "analysis": "Sensory analysis",
+      "institutional": "Institutional"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are ready to answer your inquiry",
+    "infoTitle": "Contact information",
+    "formTitle": "Send us a message",
+    "nameLabel": "Contact person",
+    "locationLabel": "Location",
+    "name": "Yamila Alvarez Coureaux",
+    "email": "yamilaec{'@'}yahoo.com",
+    "location": "Houston, TX, USA",
+    "form": {
+      "name": "Your name",
+      "email": "Your email",
+      "message": "Your message",
+      "send": "Send message",
+      "success": "Thank you! Your message has been prepared.",
+      "error": "Please fill in all fields."
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "tagline": "Sensory evaluation & consumer science",
+    "navigation": "Navigation",
+    "contact": "Contact"
+  },
+  "lang": {
+    "label": "Language",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  }
+}
