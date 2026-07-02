@@ -119,6 +119,35 @@ function parseGeneratedCourse(raw: string): GeneratedCourse | null {
   }
 }
 
+async function callGemini(userPrompt: string): Promise<string | null> {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) return null
+
+  const model = process.env.GEMINI_MODEL || 'gemini-2.0-flash'
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: [{ parts: [{ text: userPrompt }] }],
+      generationConfig: {
+        temperature: 0.4,
+        responseMimeType: 'application/json',
+      },
+    }),
+  })
+
+  if (!response.ok) {
+    console.error('[ai] Gemini error:', response.status, await response.text())
+    return null
+  }
+
+  const json = await response.json()
+  return json.candidates?.[0]?.content?.parts?.[0]?.text ?? null
+}
+
 async function callGrok(userPrompt: string): Promise<string | null> {
   const apiKey = process.env.XAI_API_KEY
   if (!apiKey) return null
@@ -150,44 +179,14 @@ async function callGrok(userPrompt: string): Promise<string | null> {
   return json.choices?.[0]?.message?.content ?? null
 }
 
-async function callOpenAI(userPrompt: string): Promise<string | null> {
-  const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) return null
-
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-      temperature: 0.4,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userPrompt },
-      ],
-    }),
-  })
-
-  if (!response.ok) {
-    console.error('[ai] OpenAI error:', response.status, await response.text())
-    return null
-  }
-
-  const json = await response.json()
-  return json.choices?.[0]?.message?.content ?? null
-}
-
 async function callAiProvider(userPrompt: string): Promise<GeneratedCourse | null> {
-  const provider = (process.env.AI_PROVIDER || 'grok').toLowerCase()
-  const tryGrok = provider === 'grok' || provider === 'auto' || provider === 'xai'
-  const tryOpenAI = provider === 'openai'
+  const provider = (process.env.AI_PROVIDER || 'gemini').toLowerCase()
 
   const attempts: Array<() => Promise<string | null>> = []
-  if (tryGrok) attempts.push(callGrok)
-  if (tryOpenAI) attempts.push(callOpenAI)
+
+  if (provider === 'gemini' || provider === 'auto') attempts.push(callGemini)
+  if (provider === 'grok' || provider === 'xai') attempts.push(callGrok)
+  if (provider === 'auto') attempts.push(callGrok)
 
   for (const attempt of attempts) {
     try {
