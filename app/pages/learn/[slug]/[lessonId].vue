@@ -116,6 +116,13 @@ watch(lessonId, () => refresh())
         title="PDF"
       />
 
+      <LmsQuizPlayer
+        v-else-if="current.type === 'quiz' && current.contentText"
+        :content-text="current.contentText"
+        :lesson-id="current.id"
+        @submitted="refresh()"
+      />
+
       <div v-else-if="current.contentText" class="lms-player__text">
         {{ current.contentText }}
       </div>

@@ -1,7 +1,7 @@
-import { nanoid } from 'nanoid'
 import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
-import { generateLessonsFromText } from '../../../utils/ai'
+import { generateCourseFromText } from '../../../utils/ai'
+import { insertGeneratedCourseContent } from '../../../utils/courseContent'
 import { mapLesson } from '../../../utils/mappers'
 
 export default defineEventHandler(async (event) => {
@@ -19,15 +19,9 @@ export default defineEventHandler(async (event) => {
   }
 
   db.prepare('DELETE FROM lessons WHERE course_id = ?').run(id)
-  const generated = await generateLessonsFromText(course.title, course.source_text)
+  const generated = await generateCourseFromText(course.title, course.source_text)
   const now = new Date().toISOString()
-  const insert = db.prepare(
-    `INSERT INTO lessons (id, course_id, title, description, type, content_url, content_text, duration_seconds, sort_order, created_at)
-     VALUES (?, ?, ?, ?, 'text', NULL, ?, 0, ?, ?)`,
-  )
-  generated.forEach((lesson, index) => {
-    insert.run(nanoid(), id, lesson.title, lesson.description, lesson.contentText, index, now)
-  })
+  insertGeneratedCourseContent(db, id, generated, now)
 
   const lessons = db
     .prepare('SELECT * FROM lessons WHERE course_id = ? ORDER BY sort_order ASC')

@@ -79,10 +79,12 @@ export function useLms() {
         progress_percent: number
         completed: number
         updated_at: string
+        quiz_score: number | null
+        quiz_total: number | null
       }>
     }>('/api/students/activity')
     return res.activity.map(
-      (row): StudentActivity => ({
+      (row): StudentActivity & { quizScore?: number | null; quizTotal?: number | null } => ({
         userId: row.user_id,
         userName: row.user_name,
         userEmail: row.user_email,
@@ -93,8 +95,17 @@ export function useLms() {
         progressPercent: row.progress_percent,
         completed: Boolean(row.completed),
         updatedAt: row.updated_at,
+        quizScore: row.quiz_score,
+        quizTotal: row.quiz_total,
       }),
     )
+  }
+
+  async function submitQuiz(lessonId: string, answers: number[]) {
+    return $fetch<import('#shared/types/lms').QuizResult>(`/api/lessons/${lessonId}/quiz`, {
+      method: 'POST',
+      body: { answers },
+    })
   }
 
   function lessonIcon(type: Lesson['type']) {
@@ -103,6 +114,7 @@ export function useLms() {
       audio: '♫',
       pdf: '📄',
       text: '✎',
+      quiz: '?',
     }
     return icons[type]
   }
@@ -120,6 +132,7 @@ export function useLms() {
     getStudents,
     createStudent,
     getActivity,
+    submitQuiz,
     lessonIcon,
   }
 }

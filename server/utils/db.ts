@@ -18,6 +18,7 @@ export function useDb() {
     db = new Database(getDbPath())
     db.pragma('journal_mode = WAL')
     initSchema(db)
+    runMigrations(db)
     seedDefaults(db)
   }
   return db
@@ -52,7 +53,7 @@ function initSchema(database: Database.Database) {
       course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
       title TEXT NOT NULL,
       description TEXT,
-      type TEXT NOT NULL CHECK(type IN ('video', 'audio', 'pdf', 'text')),
+      type TEXT NOT NULL CHECK(type IN ('video', 'audio', 'pdf', 'text', 'quiz')),
       content_url TEXT,
       content_text TEXT,
       duration_seconds INTEGER NOT NULL DEFAULT 0,
@@ -81,7 +82,55 @@ function initSchema(database: Database.Database) {
 
     CREATE INDEX IF NOT EXISTS idx_lessons_course ON lessons(course_id, sort_order);
     CREATE INDEX IF NOT EXISTS idx_progress_user ON lesson_progress(user_id);
+
+    CREATE TABLE IF NOT EXISTS quiz_attempts (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+      score INTEGER NOT NULL,
+      total INTEGER NOT NULL,
+      percent INTEGER NOT NULL,
+      passed INTEGER NOT NULL DEFAULT 0,
+      answers_json TEXT NOT NULL,
+      submitted_at TEXT NOT NULL,
+      UNIQUE(user_id, lesson_id)
+    );
   `)
+}
+
+function runMigrations(database: Database.Database) {
+  const lessonCols = database.prepare('PRAGMA table_info(lessons)').all() as Array<{ name: string }>
+  const typeCol = lessonCols.find((c) => c.name === 'type')
+  if (!typeCol) return
+
+  const tables = database
+    .prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='lessons'")
+    .get() as { sql: string } | undefined
+
+  if (tables?.sql && !tables.sql.includes("'quiz'")) {
+    database.exec(`
+      PRAGMA foreign_keys = OFF;
+      BEGIN;
+      CREATE TABLE lessons_new (
+        id TEXT PRIMARY KEY,
+        course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+        title TEXT NOT NULL,
+        description TEXT,
+        type TEXT NOT NULL CHECK(type IN ('video', 'audio', 'pdf', 'text', 'quiz')),
+        content_url TEXT,
+        content_text TEXT,
+        duration_seconds INTEGER NOT NULL DEFAULT 0,
+        sort_order INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL
+      );
+      INSERT INTO lessons_new SELECT * FROM lessons;
+      DROP TABLE lessons;
+      ALTER TABLE lessons_new RENAME TO lessons;
+      CREATE INDEX IF NOT EXISTS idx_lessons_course ON lessons(course_id, sort_order);
+      COMMIT;
+      PRAGMA foreign_keys = ON;
+    `)
+  }
 }
 
 function seedDefaults(database: Database.Database) {

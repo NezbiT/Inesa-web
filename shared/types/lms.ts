@@ -1,6 +1,32 @@
 export type UserRole = 'admin' | 'student'
 
-export type LessonType = 'video' | 'audio' | 'pdf' | 'text'
+export type LessonType = 'video' | 'audio' | 'pdf' | 'text' | 'quiz'
+
+export interface QuizQuestionPublic {
+  id: number
+  question: string
+  options: string[]
+}
+
+export interface QuizPayload {
+  title: string
+  questions: QuizQuestionPublic[]
+}
+
+export interface QuizResult {
+  score: number
+  total: number
+  percent: number
+  passed: boolean
+  passPercent: number
+  results: Array<{
+    question: string
+    selected: number
+    correctIndex: number
+    correct: boolean
+    explanation: string
+  }>
+}
 
 export type CourseStatus = 'draft' | 'published' | 'archived'
 

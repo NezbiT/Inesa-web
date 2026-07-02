@@ -9,7 +9,7 @@ import { mapLesson } from '../../../utils/mappers'
 const schema = z.object({
   title: z.string().min(2),
   description: z.string().optional(),
-  type: z.enum(['video', 'audio', 'pdf', 'text']),
+  type: z.enum(['video', 'audio', 'pdf', 'text', 'quiz']),
   contentText: z.string().optional(),
 })
 

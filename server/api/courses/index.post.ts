@@ -4,7 +4,8 @@ import { join } from 'node:path'
 import { requireUser } from '../../utils/auth'
 import { slugify, useDb } from '../../utils/db'
 import { extractPdfText } from '../../utils/pdf'
-import { generateLessonsFromText } from '../../utils/ai'
+import { generateCourseFromText } from '../../utils/ai'
+import { insertGeneratedCourseContent } from '../../utils/courseContent'
 import { mapCourse } from '../../utils/mappers'
 
 export default defineEventHandler(async (event) => {
@@ -31,13 +32,27 @@ export default defineEventHandler(async (event) => {
   let sourceText: string | null = null
 
   if (pdfFile?.data) {
-    const uploadDir = join(process.cwd(), 'uploads', 'courses', id)
-    await mkdir(uploadDir, { recursive: true })
-    const filename = pdfFile.filename || 'source.pdf'
-    const diskPath = join(uploadDir, filename)
-    await writeFile(diskPath, pdfFile.data)
-    sourcePdfPath = `/api/media/courses/${id}/${filename}`
-    sourceText = await extractPdfText(diskPath)
+    try {
+      const uploadDir = join(process.cwd(), 'uploads', 'courses', id)
+      await mkdir(uploadDir, { recursive: true })
+      const filename = pdfFile.filename || 'source.pdf'
+      const diskPath = join(uploadDir, filename)
+      await writeFile(diskPath, pdfFile.data)
+      sourcePdfPath = `/api/media/courses/${id}/${filename}`
+      sourceText = await extractPdfText(diskPath)
+      if (!sourceText || sourceText.length < 20) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: 'El PDF no tiene texto legible. Usa un PDF con texto seleccionable.',
+        })
+      }
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'statusCode' in err) throw err
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'No se pudo leer el PDF. Verifica que el archivo sea válido.',
+      })
+    }
   }
 
   db.prepare(
@@ -46,24 +61,17 @@ export default defineEventHandler(async (event) => {
   ).run(id, slug, title, description, sourcePdfPath, sourceText, now, now)
 
   if (sourceText) {
-    const generated = await generateLessonsFromText(title, sourceText)
-    const insert = db.prepare(
-      `INSERT INTO lessons (id, course_id, title, description, type, content_url, content_text, duration_seconds, sort_order, created_at)
-       VALUES (?, ?, ?, ?, 'text', NULL, ?, 0, ?, ?)`,
-    )
-    generated.forEach((lesson, index) => {
-      insert.run(
-        nanoid(),
-        id,
-        lesson.title,
-        lesson.description,
-        lesson.contentText,
-        index,
-        now,
-      )
-    })
+    const generated = await generateCourseFromText(title, sourceText)
+    insertGeneratedCourseContent(db, id, generated, now)
   }
 
   const row = db.prepare('SELECT * FROM courses WHERE id = ?').get(id)
-  return { course: mapCourse(row as Record<string, unknown>) }
+  const lessonCount = db
+    .prepare('SELECT COUNT(*) as c FROM lessons WHERE course_id = ?')
+    .get(id) as { c: number }
+
+  return {
+    course: mapCourse(row as Record<string, unknown>),
+    lessonCount: lessonCount.c,
+  }
 })

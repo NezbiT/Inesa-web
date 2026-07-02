@@ -20,18 +20,24 @@ async function onSubmit() {
     error.value = 'El título es obligatorio.'
     return
   }
+  if (!pdfFile.value) {
+    error.value = 'Debes subir un PDF con el material del curso.'
+    return
+  }
 
   loading.value = true
   try {
     const form = new FormData()
     form.append('title', title.value.trim())
     form.append('description', description.value.trim())
-    if (pdfFile.value) form.append('pdf', pdfFile.value)
+    form.append('pdf', pdfFile.value)
 
     const { course } = await createCourse(form)
     await navigateTo(`/dashboard/courses/${course.id}`)
   } catch (e: unknown) {
-    error.value = 'No se pudo crear el curso. Intenta de nuevo.'
+    const err = e as { data?: { statusMessage?: string }; statusMessage?: string; message?: string }
+    error.value =
+      err.data?.statusMessage || err.statusMessage || err.message || 'No se pudo crear el curso.'
   } finally {
     loading.value = false
   }
@@ -60,9 +66,10 @@ async function onSubmit() {
         </label>
 
         <label>
-          Material PDF (opcional)
-          <input type="file" accept=".pdf,application/pdf" @change="onFileChange" />
+          Material PDF
+          <input type="file" accept=".pdf,application/pdf" required @change="onFileChange" />
         </label>
+        <p class="lms-form-hint">La IA leerá el PDF, creará lecciones cortas y un cuestionario con calificación automática.</p>
 
         <div class="lms-form-actions">
           <button type="submit" class="lms-btn lms-btn--primary" :disabled="loading">
@@ -99,5 +106,12 @@ async function onSubmit() {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
+}
+
+.lms-form-hint {
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  margin-top: -0.4rem;
 }
 </style>

@@ -1,4 +1,5 @@
 import { getSessionUser } from '../../utils/auth'
+import { sanitizeQuizContent } from '../../utils/courseContent'
 import { useDb } from '../../utils/db'
 import { mapCourse, mapLesson } from '../../utils/mappers'
 
@@ -16,10 +17,17 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, statusMessage: 'Curso no disponible' })
   }
 
+  const isAdmin = user?.role === 'admin'
   const lessons = db
     .prepare('SELECT * FROM lessons WHERE course_id = ? ORDER BY sort_order ASC')
     .all(course.id)
-    .map((lesson) => mapLesson(lesson as Record<string, unknown>))
+    .map((lesson) => {
+      const mapped = mapLesson(lesson as Record<string, unknown>)
+      if (!isAdmin && mapped.type === 'quiz' && mapped.contentText) {
+        return { ...mapped, contentText: sanitizeQuizContent(mapped.contentText) }
+      }
+      return mapped
+    })
 
   let progress: Array<Record<string, unknown>> = []
   if (user?.role === 'student') {
