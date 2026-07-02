@@ -2,16 +2,7 @@
 definePageMeta({ layout: 'dashboard', middleware: 'admin' })
 
 const { getCourses } = useLms()
-const { data: courses, refresh } = await useAsyncData('dash-courses', () => getCourses())
-
-function statusLabel(status: string) {
-  const labels: Record<string, string> = {
-    draft: 'Borrador',
-    published: 'Publicado',
-    archived: 'Archivado',
-  }
-  return labels[status] || status
-}
+const { data: courses } = await useAsyncData('dash-courses', () => getCourses())
 </script>
 
 <template>
@@ -25,24 +16,25 @@ function statusLabel(status: string) {
     </LmsPageHeader>
 
     <div v-if="courses?.length" class="lms-grid">
-      <article v-for="course in courses" :key="course.id" class="lms-course-card">
-        <div class="lms-course-card__thumb">{{ course.title.charAt(0) }}</div>
-        <div class="lms-course-card__body">
-          <span class="lms-badge" :class="`lms-badge--${course.status}`">
-            {{ statusLabel(course.status) }}
-          </span>
-          <h3>{{ course.title }}</h3>
-          <p>{{ course.description || 'Sin descripción' }}</p>
-          <NuxtLink :to="`/dashboard/courses/${course.id}`" class="lms-btn lms-btn--secondary lms-btn--sm">
-            Editar curso
-          </NuxtLink>
-        </div>
-      </article>
+      <LmsCourseCard
+        v-for="course in courses"
+        :key="course.id"
+        :title="course.title"
+        :description="course.description"
+        description-fallback="Sin descripción"
+        :status="course.status"
+      >
+        <NuxtLink :to="`/dashboard/courses/${course.id}`" class="lms-btn lms-btn--secondary lms-btn--sm">
+          Editar curso
+        </NuxtLink>
+      </LmsCourseCard>
     </div>
 
-    <p v-else class="lms-empty">
-      No hay cursos. Crea uno subiendo un PDF con el material de estudio.
-    </p>
+    <div v-else class="lms-empty lms-empty--cta">
+      <p>No hay cursos todavía.</p>
+      <NuxtLink to="/dashboard/courses/new" class="lms-btn lms-btn--primary">
+        + Crear primer curso
+      </NuxtLink>
+    </div>
   </div>
 </template>
-

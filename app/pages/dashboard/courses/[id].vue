@@ -62,7 +62,7 @@ async function onGenerate() {
     message.value = 'Lecciones regeneradas con IA.'
     await refresh()
   } catch {
-    message.value = 'Sube un PDF primero o el material no tiene texto.'
+    message.value = 'No se pudo regenerar. Verifica GEMINI_API_KEY en .env y que el PDF tenga texto.'
   } finally {
     generating.value = false
   }
@@ -100,15 +100,14 @@ async function onAddLesson() {
 
 <template>
   <div v-if="data?.course">
-    <header class="lms-page-header lms-page-header--row">
-      <div>
-        <h1>{{ editTitle }}</h1>
-        <span class="lms-badge" :class="`lms-badge--${editStatus}`">{{ editStatus }}</span>
-      </div>
-      <NuxtLink to="/dashboard/courses" class="lms-btn lms-btn--secondary lms-btn--sm">
-        ← Volver
-      </NuxtLink>
-    </header>
+    <LmsPageHeader :title="editTitle">
+      <span class="lms-badge" :class="`lms-badge--${editStatus}`">{{ editStatus }}</span>
+      <template #actions>
+        <NuxtLink to="/dashboard/courses" class="lms-btn lms-btn--secondary lms-btn--sm">
+          ← Volver
+        </NuxtLink>
+      </template>
+    </LmsPageHeader>
 
     <p v-if="message" class="lms-alert lms-alert--success">{{ message }}</p>
 
@@ -146,7 +145,7 @@ async function onAddLesson() {
           :disabled="generating"
           @click="onGenerate"
         >
-          {{ generating ? 'Generando…' : 'Regenerar con IA' }}
+          {{ generating ? 'Regenerando curso completo… (2-5 min)' : 'Regenerar curso con IA' }}
         </button>
       </div>
 
@@ -192,21 +191,3 @@ async function onAddLesson() {
   </div>
 </template>
 
-<style scoped>
-.lms-page-header {
-  margin-bottom: 1.6rem;
-}
-
-.lms-page-header h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-}
-
-.lms-page-header--row {
-  align-items: start;
-  display: flex;
-  justify-content: space-between;
-}
-</style>

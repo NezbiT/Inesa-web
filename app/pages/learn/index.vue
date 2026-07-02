@@ -12,19 +12,17 @@ const { data: courses } = await useAsyncData('learn-courses', () => getCourses()
       <p>Continúa tu formación en evaluación sensorial.</p>
 
       <div v-if="courses?.length" class="lms-grid">
-        <NuxtLink
+        <LmsCourseCard
           v-for="course in courses"
           :key="course.id"
+          :title="course.title"
+          :description="course.description"
+          description-fallback="Curso INESA"
           :to="`/learn/${course.slug}`"
-          class="lms-course-card lms-course-card--dark"
+          variant="dark"
         >
-          <div class="lms-course-card__thumb">{{ course.title.charAt(0) }}</div>
-          <div class="lms-course-card__body">
-            <h3>{{ course.title }}</h3>
-            <p>{{ course.description || 'Curso INESA' }}</p>
-            <span class="lms-btn lms-btn--primary lms-btn--sm">Continuar →</span>
-          </div>
-        </NuxtLink>
+          <span class="lms-btn lms-btn--primary lms-btn--sm">Continuar →</span>
+        </LmsCourseCard>
       </div>
 
       <div v-else class="lms-empty-block">
@@ -61,18 +59,18 @@ const { data: courses } = await useAsyncData('learn-courses', () => getCourses()
   margin-bottom: 2rem;
 }
 
-.lms-course-card--dark {
+.lms-learn-home :deep(.lms-course-card--dark) {
   background: #1a1f26;
   border-color: rgba(255, 255, 255, 0.08);
   color: #fff;
   text-decoration: none;
 }
 
-.lms-course-card--dark:hover {
+.lms-learn-home :deep(.lms-course-card--dark:hover) {
   color: #fff;
 }
 
-.lms-course-card--dark .lms-course-card__body p {
+.lms-learn-home :deep(.lms-course-card--dark .lms-course-card__body p) {
   color: rgba(255, 255, 255, 0.55);
 }
 

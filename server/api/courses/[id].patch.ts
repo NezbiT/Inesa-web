@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { requireUser } from '../../utils/auth'
 import { useDb } from '../../utils/db'
+import { requireRouteId } from '../../utils/routeParams'
 import type { DbCourseRow } from '#shared/types/db'
 import { mapCourse } from '../../utils/mappers'
 
@@ -12,8 +13,7 @@ const schema = z.object({
 
 export default defineEventHandler(async (event) => {
   await requireUser(event, ['admin'])
-  const id = getRouterParam(event, 'id')
-  if (!id) throw createError({ statusCode: 400, statusMessage: 'ID requerido' })
+  const id = requireRouteId(event)
 
   const body = schema.parse(await readBody(event))
   const db = useDb()

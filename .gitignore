@@ -25,3 +25,6 @@ logs
 
 # LMS uploads
 uploads
+
+*storybook.log
+storybook-static

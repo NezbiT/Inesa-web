@@ -1,5 +1,6 @@
 import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
+import { requireRouteId } from '../../../utils/routeParams'
 import { generateCourseFromText } from '../../../utils/ai'
 import { insertGeneratedCourseContent } from '../../../utils/courseContent'
 import type { DbLessonRow } from '#shared/types/db'
@@ -7,8 +8,7 @@ import { mapLesson } from '../../../utils/mappers'
 
 export default defineEventHandler(async (event) => {
   await requireUser(event, ['admin'])
-  const id = getRouterParam(event, 'id')
-  if (!id) throw createError({ statusCode: 400, statusMessage: 'ID requerido' })
+  const id = requireRouteId(event)
 
   const db = useDb()
   const course = db.prepare('SELECT * FROM courses WHERE id = ?').get(id) as

@@ -1,11 +1,11 @@
 import { nanoid } from 'nanoid'
 import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
+import { requireRouteId } from '../../../utils/routeParams'
 
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event, ['student', 'admin'])
-  const courseId = getRouterParam(event, 'id')
-  if (!courseId) throw createError({ statusCode: 400, statusMessage: 'ID requerido' })
+  const courseId = requireRouteId(event)
 
   const db = useDb()
   const course = db

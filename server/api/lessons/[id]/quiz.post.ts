@@ -1,7 +1,8 @@
 import { nanoid } from 'nanoid'
 import { z } from 'zod'
-import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
+import { requireLesson, requireLessonAccess } from '../../../utils/lessons'
+import { upsertLessonProgress } from '../../../utils/lessonProgress'
 
 const schema = z.object({
   answers: z.array(z.number().int().min(0).max(3)),
@@ -10,23 +11,17 @@ const schema = z.object({
 const PASS_PERCENT = 70
 
 export default defineEventHandler(async (event) => {
-  const user = await requireUser(event, ['student', 'admin'])
-  const lessonId = getRouterParam(event, 'id')
-  if (!lessonId) throw createError({ statusCode: 400, statusMessage: 'ID requerido' })
+  const { user, lessonId } = await requireLessonAccess(event)
 
   const body = schema.parse(await readBody(event))
   const db = useDb()
 
-  const lesson = db.prepare('SELECT * FROM lessons WHERE id = ?').get(lessonId) as
-    | {
-        id: string
-        type: string
-        content_text: string | null
-        course_id: string
-      }
-    | undefined
-
-  if (!lesson) throw createError({ statusCode: 404, statusMessage: 'Lección no encontrada' })
+  const lesson = requireLesson<{
+    id: string
+    type: string
+    content_text: string | null
+    course_id: string
+  }>(db, lessonId)
   if (lesson.type !== 'quiz' || !lesson.content_text) {
     throw createError({ statusCode: 400, statusMessage: 'Esta lección no es un cuestionario' })
   }
@@ -96,22 +91,10 @@ export default defineEventHandler(async (event) => {
     )
   }
 
-  const progressExisting = db
-    .prepare('SELECT id FROM lesson_progress WHERE user_id = ? AND lesson_id = ?')
-    .get(user.id, lessonId) as { id: string } | undefined
-
-  if (progressExisting) {
-    db.prepare(
-      `UPDATE lesson_progress
-       SET progress_percent = ?, completed = ?, updated_at = ?
-       WHERE id = ?`,
-    ).run(percent, passed ? 1 : 0, now, progressExisting.id)
-  } else {
-    db.prepare(
-      `INSERT INTO lesson_progress (id, user_id, lesson_id, completed, progress_percent, last_position_seconds, updated_at)
-       VALUES (?, ?, ?, ?, ?, 0, ?)`,
-    ).run(nanoid(), user.id, lessonId, passed ? 1 : 0, percent, now)
-  }
+  upsertLessonProgress(db, user.id, lessonId, {
+    progressPercent: percent,
+    completed: passed,
+  })
 
   return {
     score,

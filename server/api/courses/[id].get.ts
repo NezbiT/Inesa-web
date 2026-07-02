@@ -4,10 +4,10 @@ import { getSessionUser } from '../../utils/auth'
 import { sanitizeQuizContent } from '../../utils/courseContent'
 import { useDb } from '../../utils/db'
 import { mapCourse, mapLesson, mapLessonProgress } from '../../utils/mappers'
+import { requireRouteId } from '../../utils/routeParams'
 
 export default defineEventHandler(async (event): Promise<CourseDetailResponse> => {
-  const id = getRouterParam(event, 'id')
-  if (!id) throw createError({ statusCode: 400, statusMessage: 'ID requerido' })
+  const id = requireRouteId(event)
 
   const user = await getSessionUser(event)
   const db = useDb()

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
-const { user, logout } = useAuth()
+const { user, fetchUser, logout } = useAuth()
+
+onMounted(() => fetchUser())
 
 const nav = [
   { to: '/dashboard', label: 'Resumen', icon: '◉' },

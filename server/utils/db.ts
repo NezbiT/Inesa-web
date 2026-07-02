@@ -131,6 +131,15 @@ function runMigrations(database: Database.Database) {
       PRAGMA foreign_keys = ON;
     `)
   }
+
+  const now = new Date().toISOString()
+  database
+    .prepare(
+      `UPDATE courses SET status = 'published', updated_at = ?
+       WHERE status = 'draft'
+         AND id IN (SELECT DISTINCT course_id FROM lessons)`,
+    )
+    .run(now)
 }
 
 function seedUser(

@@ -58,6 +58,9 @@ function closeMenu() {
             </NuxtLink>
           </li>
         </ul>
+        <NuxtLink :to="localePath('/academy/login?role=student')" class="nav-academy-cta">
+          Estudiantes
+        </NuxtLink>
         <LayoutLanguageSwitcher compact />
       </nav>
     </div>

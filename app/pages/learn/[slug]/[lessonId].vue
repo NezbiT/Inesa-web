@@ -4,7 +4,7 @@ import type { Lesson } from '#shared/types/lms'
 definePageMeta({ layout: 'learn', middleware: 'auth' })
 
 const route = useRoute()
-const slug = route.params.slug as string
+const slug = useLearnSlug().value
 const lessonId = route.params.lessonId as string
 
 const { getCourse, saveProgress, lessonIcon } = useLms()
@@ -15,13 +15,8 @@ const course = computed(() => data.value?.course)
 const lessons = computed(() => data.value?.lessons ?? [])
 const current = computed(() => lessons.value.find((l) => l.id === lessonId))
 
-const progressMap = computed(() => {
-  const map = new Map<string, { percent: number; completed: boolean }>()
-  for (const p of data.value?.progress ?? []) {
-    map.set(p.lessonId, { percent: p.progressPercent, completed: p.completed })
-  }
-  return map
-})
+const progress = computed(() => data.value?.progress)
+const progressMap = useLessonProgressMap(progress)
 
 let progressTimer: ReturnType<typeof setInterval> | null = null
 

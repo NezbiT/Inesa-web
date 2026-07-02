@@ -35,9 +35,23 @@ async function onSubmit() {
     const { course } = await createCourse(form)
     await navigateTo(`/dashboard/courses/${course.id}`)
   } catch (e: unknown) {
-    const err = e as { data?: { statusMessage?: string }; statusMessage?: string; message?: string }
+    const err = e as {
+      statusCode?: number
+      data?: { statusMessage?: string; message?: string }
+      statusMessage?: string
+      message?: string
+    }
+    if (err.statusCode === 401 || err.statusCode === 403) {
+      error.value = 'Sesión de instructor expirada o sin permisos. Vuelve a entrar como instructor.'
+      await navigateTo('/academy/login?role=instructor')
+      return
+    }
     error.value =
-      err.data?.statusMessage || err.statusMessage || err.message || 'No se pudo crear el curso.'
+      err.data?.statusMessage ||
+      err.data?.message ||
+      err.statusMessage ||
+      err.message ||
+      'No se pudo crear el curso.'
   } finally {
     loading.value = false
   }
@@ -69,11 +83,14 @@ async function onSubmit() {
           Material PDF
           <input type="file" accept=".pdf,application/pdf" required @change="onFileChange" />
         </label>
-        <p class="lms-form-hint">Usa Google Gemini gratis (aistudio.google.com/apikey). Lee el PDF y crea lecciones + cuestionario.</p>
+        <p class="lms-form-hint">
+          Usa Google Gemini gratis (aistudio.google.com/apikey). Lee el PDF y crea lecciones + cuestionario.
+          Los cursos con lecciones se publican automáticamente en el catálogo.
+        </p>
 
         <div class="lms-form-actions">
           <button type="submit" class="lms-btn lms-btn--primary" :disabled="loading">
-            {{ loading ? 'Creando con IA…' : 'Crear curso' }}
+            {{ loading ? 'Generando curso completo con IA… (puede tardar 2-5 min)' : 'Crear curso' }}
           </button>
           <NuxtLink to="/dashboard/courses" class="lms-btn lms-btn--secondary">
             Cancelar

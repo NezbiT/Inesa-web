@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { z } from 'zod'
 import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
+import { requireRouteId } from '../../../utils/routeParams'
 import type { DbLessonRow } from '#shared/types/db'
 import { mapLesson } from '../../../utils/mappers'
 
@@ -16,8 +17,7 @@ const schema = z.object({
 
 export default defineEventHandler(async (event) => {
   await requireUser(event, ['admin'])
-  const courseId = getRouterParam(event, 'id')
-  if (!courseId) throw createError({ statusCode: 400, statusMessage: 'ID requerido' })
+  const courseId = requireRouteId(event)
 
   const form = await readMultipartFormData(event)
   const title = String(form?.find((f) => f.name === 'title')?.data?.toString() || '')

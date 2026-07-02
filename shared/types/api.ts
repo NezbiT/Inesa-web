@@ -12,8 +12,12 @@ export interface AuthLoginResponse {
   user: User
 }
 
+export interface CatalogCourse extends Course {
+  enrolled?: boolean
+}
+
 export interface CoursesListResponse {
-  courses: Course[]
+  courses: CatalogCourse[]
 }
 
 export interface CourseCreateResponse {

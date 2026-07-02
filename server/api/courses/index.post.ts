@@ -61,18 +61,28 @@ export default defineEventHandler(async (event) => {
      VALUES (?, ?, ?, ?, 'draft', NULL, ?, ?, ?, ?)`,
   ).run(id, slug, title, description, sourcePdfPath, sourceText, now, now)
 
+  let lessonCount = 0
   if (sourceText) {
-    const generated = await generateCourseFromText(title, sourceText)
-    insertGeneratedCourseContent(db, id, generated, now)
+    try {
+      const generated = await generateCourseFromText(title, sourceText)
+      insertGeneratedCourseContent(db, id, generated, now)
+    } catch (err) {
+      console.error('[courses] AI generation failed, course saved as draft:', err)
+    }
+  }
+
+  lessonCount = (
+    db.prepare('SELECT COUNT(*) as c FROM lessons WHERE course_id = ?').get(id) as { c: number }
+  ).c
+
+  if (lessonCount > 0) {
+    db.prepare("UPDATE courses SET status = 'published', updated_at = ? WHERE id = ?").run(now, id)
   }
 
   const row = db.prepare('SELECT * FROM courses WHERE id = ?').get(id)
-  const lessonCount = db
-    .prepare('SELECT COUNT(*) as c FROM lessons WHERE course_id = ?')
-    .get(id) as { c: number }
 
   return {
     course: mapCourse(row as DbCourseRow),
-    lessonCount: lessonCount.c,
+    lessonCount,
   }
 })

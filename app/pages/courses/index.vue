@@ -15,7 +15,7 @@ const features = useLocaleArray<{ icon: string; title: string; text: string }>('
       <section class="courses-hero panel">
         <div class="courses-hero__content">
           <span class="courses-badge">{{ t('courses.badge') }}</span>
-          <h2>{{ t('courses.introTitle') }}</h2>
+          <h2 class="courses-section-title">{{ t('courses.introTitle') }}</h2>
           <p>{{ t('courses.intro') }}</p>
           <p>{{ t('courses.description') }}</p>
         </div>
@@ -44,15 +44,15 @@ const features = useLocaleArray<{ icon: string; title: string; text: string }>('
 
       <section class="courses-cta panel">
         <div class="courses-cta__body">
-          <h2>{{ t('courses.ctaTitle') }}</h2>
+          <h2 class="courses-section-title">{{ t('courses.ctaTitle') }}</h2>
           <p>{{ t('courses.ctaText') }}</p>
         </div>
         <div class="courses-cta__actions">
           <NuxtLink :to="localePath('/academy')" class="btn btn-primary">
             INESA Academy
           </NuxtLink>
-          <NuxtLink :to="localePath('/academy/login')" class="btn btn-secondary">
-            Iniciar sesión
+          <NuxtLink :to="localePath('/academy/login?role=student')" class="btn btn-secondary">
+            Entrar como estudiante
           </NuxtLink>
         </div>
       </section>
@@ -82,15 +82,18 @@ const features = useLocaleArray<{ icon: string; title: string; text: string }>('
   text-transform: uppercase;
 }
 
-.courses-hero__content h2 {
+.courses-section-title {
   border-left: 4px solid var(--color-brand);
   color: var(--color-brand);
   font-family: var(--font-sans);
   font-size: 2.4rem;
   font-weight: 400;
   line-height: 1.2;
-  margin-bottom: 1.2rem;
   padding-left: 1rem;
+}
+
+.courses-hero__content .courses-section-title {
+  margin-bottom: 1.2rem;
 }
 
 .courses-hero__content p {
@@ -152,15 +155,8 @@ const features = useLocaleArray<{ icon: string; title: string; text: string }>('
   grid-template-columns: 1fr auto;
 }
 
-.courses-cta__body h2 {
-  border-left: 4px solid var(--color-brand);
-  color: var(--color-brand);
-  font-family: var(--font-sans);
-  font-size: 2.4rem;
-  font-weight: 400;
-  line-height: 1.2;
+.courses-cta__body .courses-section-title {
   margin-bottom: 0.8rem;
-  padding-left: 1rem;
 }
 
 .courses-cta__actions {

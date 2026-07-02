@@ -1,4 +1,5 @@
 import type {
+  CatalogCourse,
   CourseCreateResponse,
   CourseDetailResponse,
   CoursePatchResponse,
@@ -14,59 +15,68 @@ import type {
   StudentsListResponse,
 } from '#shared/types/api'
 import type { Course, Lesson, LessonType, QuizResult, User } from '#shared/types/lms'
+import { apiFetch } from '~/utils/apiFetch'
 
 export function useLms() {
   async function getStats(): Promise<DashboardStatsResponse> {
-    return $fetch<DashboardStatsResponse>('/api/dashboard/stats')
+    return apiFetch<DashboardStatsResponse>('/api/dashboard/stats')
   }
 
-  async function getCourses(): Promise<Course[]> {
-    const res = await $fetch<CoursesListResponse>('/api/courses')
+  async function getCourses(opts?: { catalog?: boolean }): Promise<CatalogCourse[]> {
+    const query = opts?.catalog ? '?catalog=true' : ''
+    const res = await apiFetch<CoursesListResponse>(`/api/courses${query}`)
     return res.courses
   }
 
   async function getCourse(id: string): Promise<CourseDetailResponse> {
-    return $fetch<CourseDetailResponse>(`/api/courses/${id}`)
+    return apiFetch<CourseDetailResponse>(`/api/courses/${id}`)
   }
 
   async function createCourse(form: FormData): Promise<CourseCreateResponse> {
-    return $fetch<CourseCreateResponse>('/api/courses', { method: 'POST', body: form })
+    return apiFetch<CourseCreateResponse>('/api/courses', {
+      method: 'POST',
+      body: form,
+      timeout: 300_000,
+    })
   }
 
   async function updateCourse(
     id: string,
     body: Partial<Pick<Course, 'title' | 'description' | 'status'>>,
   ): Promise<CoursePatchResponse> {
-    return $fetch<CoursePatchResponse>(`/api/courses/${id}`, { method: 'PATCH', body })
+    return apiFetch<CoursePatchResponse>(`/api/courses/${id}`, { method: 'PATCH', body })
   }
 
   async function generateLessons(courseId: string): Promise<LessonsGenerateResponse> {
-    return $fetch<LessonsGenerateResponse>(`/api/courses/${courseId}/generate`, { method: 'POST' })
+    return apiFetch<LessonsGenerateResponse>(`/api/courses/${courseId}/generate`, {
+      method: 'POST',
+      timeout: 300_000,
+    })
   }
 
   async function addLesson(courseId: string, form: FormData): Promise<LessonCreateResponse> {
-    return $fetch<LessonCreateResponse>(`/api/courses/${courseId}/lessons`, {
+    return apiFetch<LessonCreateResponse>(`/api/courses/${courseId}/lessons`, {
       method: 'POST',
       body: form,
     })
   }
 
   async function enroll(courseId: string): Promise<EnrollResponse> {
-    return $fetch<EnrollResponse>(`/api/courses/${courseId}/enroll`, { method: 'POST' })
+    return apiFetch<EnrollResponse>(`/api/courses/${courseId}/enroll`, { method: 'POST' })
   }
 
   async function saveProgress(
     lessonId: string,
     data: { progressPercent: number; lastPositionSeconds?: number; completed?: boolean },
   ): Promise<ProgressSaveResponse> {
-    return $fetch<ProgressSaveResponse>(`/api/lessons/${lessonId}/progress`, {
+    return apiFetch<ProgressSaveResponse>(`/api/lessons/${lessonId}/progress`, {
       method: 'POST',
       body: data,
     })
   }
 
   async function getStudents(): Promise<User[]> {
-    const res = await $fetch<StudentsListResponse>('/api/students')
+    const res = await apiFetch<StudentsListResponse>('/api/students')
     return res.students
   }
 
@@ -75,16 +85,16 @@ export function useLms() {
     name: string
     password: string
   }): Promise<StudentCreateResponse> {
-    return $fetch<StudentCreateResponse>('/api/students', { method: 'POST', body })
+    return apiFetch<StudentCreateResponse>('/api/students', { method: 'POST', body })
   }
 
   async function getActivity(): Promise<StudentActivityResponse['activity']> {
-    const res = await $fetch<StudentActivityResponse>('/api/students/activity')
+    const res = await apiFetch<StudentActivityResponse>('/api/students/activity')
     return res.activity
   }
 
   async function submitQuiz(lessonId: string, answers: number[]): Promise<QuizResult> {
-    return $fetch<QuizSubmitResponse>(`/api/lessons/${lessonId}/quiz`, {
+    return apiFetch<QuizSubmitResponse>(`/api/lessons/${lessonId}/quiz`, {
       method: 'POST',
       body: { answers },
     })
