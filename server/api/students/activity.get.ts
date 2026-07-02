@@ -1,7 +1,10 @@
+import type { StudentActivityResponse } from '#shared/types/api'
+import type { DbActivityRow } from '#shared/types/db'
 import { requireUser } from '../../utils/auth'
 import { useDb } from '../../utils/db'
+import { mapStudentActivity } from '../../utils/mappers'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<StudentActivityResponse> => {
   await requireUser(event, ['admin'])
   const rows = useDb()
     .prepare(
@@ -21,7 +24,7 @@ export default defineEventHandler(async (event) => {
        ORDER BY COALESCE(qa.submitted_at, lp.updated_at) DESC
        LIMIT 100`,
     )
-    .all()
+    .all() as DbActivityRow[]
 
-  return { activity: rows }
+  return { activity: rows.map(mapStudentActivity) }
 })

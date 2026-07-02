@@ -6,6 +6,7 @@ import { slugify, useDb } from '../../utils/db'
 import { extractPdfText } from '../../utils/pdf'
 import { generateCourseFromText } from '../../utils/ai'
 import { insertGeneratedCourseContent } from '../../utils/courseContent'
+import type { DbCourseRow } from '#shared/types/db'
 import { mapCourse } from '../../utils/mappers'
 
 export default defineEventHandler(async (event) => {
@@ -71,7 +72,7 @@ export default defineEventHandler(async (event) => {
     .get(id) as { c: number }
 
   return {
-    course: mapCourse(row as Record<string, unknown>),
+    course: mapCourse(row as DbCourseRow),
     lessonCount: lessonCount.c,
   }
 })

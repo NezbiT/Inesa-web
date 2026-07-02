@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { requireUser } from '../../utils/auth'
 import { useDb } from '../../utils/db'
+import type { DbCourseRow } from '#shared/types/db'
 import { mapCourse } from '../../utils/mappers'
 
 const schema = z.object({
@@ -30,5 +31,5 @@ export default defineEventHandler(async (event) => {
   ).run(body.title ?? null, body.description ?? null, body.status ?? null, now, id)
 
   const row = db.prepare('SELECT * FROM courses WHERE id = ?').get(id)
-  return { course: mapCourse(row as Record<string, unknown>) }
+  return { course: mapCourse(row as DbCourseRow) }
 })

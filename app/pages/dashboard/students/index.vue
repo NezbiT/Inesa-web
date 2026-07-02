@@ -38,10 +38,10 @@ async function onCreate() {
 
 <template>
   <div>
-    <header class="lms-page-header">
-      <h1>Estudiantes</h1>
-      <p>Crea cuentas y monitorea qué están estudiando en tiempo real.</p>
-    </header>
+    <LmsPageHeader
+      title="Estudiantes"
+      subtitle="Crea cuentas y monitorea qué están estudiando en tiempo real."
+    />
 
     <div class="lms-split">
       <section class="lms-card">
@@ -111,7 +111,7 @@ async function onCreate() {
               <div class="lms-progress" style="width: 100px">
                 <div class="lms-progress__bar" :style="{ width: `${item.progressPercent}%` }" />
               </div>
-              <template v-if="'quizScore' in item && item.quizScore != null">{{ item.quizScore }}/{{ item.quizTotal }}</template>
+              <template v-if="item.quizScore != null">{{ item.quizScore }}/{{ item.quizTotal }}</template>
               <template v-else>{{ item.completed ? '✓' : `${item.progressPercent}%` }}</template>
             </td>
             <td>{{ new Date(item.updatedAt).toLocaleString('es') }}</td>
@@ -123,21 +123,3 @@ async function onCreate() {
   </div>
 </template>
 
-<style scoped>
-.lms-page-header {
-  margin-bottom: 1.6rem;
-}
-
-.lms-page-header h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-}
-
-.lms-page-header p {
-  color: var(--color-muted);
-  font-family: var(--font-sans);
-  font-size: 1.3rem;
-}
-</style>

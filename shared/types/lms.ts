@@ -92,6 +92,8 @@ export interface StudentActivity {
   progressPercent: number
   completed: boolean
   updatedAt: string
+  quizScore: number | null
+  quizTotal: number | null
 }
 
 export interface DashboardStats {

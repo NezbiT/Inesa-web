@@ -1,9 +1,6 @@
-import type { Course } from '#shared/types/course'
+import type { MarketingCourse } from '#shared/types/course'
 
-/**
- * Catálogo de cursos — ampliar cuando la plataforma LMS esté activa.
- * Cada curso publicado tendrá slug, módulos y estado de publicación.
- */
-export const coursesCatalog: Course[] = []
+/** Catálogo estático del sitio (no confundir con cursos LMS en /api/courses). */
+export const coursesCatalog: MarketingCourse[] = []
 
 export const coursesCatalogCount = coursesCatalog.length

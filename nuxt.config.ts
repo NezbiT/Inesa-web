@@ -5,6 +5,11 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/i18n'],
 
+  typescript: {
+    strict: true,
+    typeCheck: false,
+  },
+
   css: ['~/assets/css/main.css', '~/assets/css/lms.css'],
 
   runtimeConfig: {

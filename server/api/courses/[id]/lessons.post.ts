@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { z } from 'zod'
 import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
+import type { DbLessonRow } from '#shared/types/db'
 import { mapLesson } from '../../../utils/mappers'
 
 const schema = z.object({
@@ -72,5 +73,5 @@ export default defineEventHandler(async (event) => {
   )
 
   const row = db.prepare('SELECT * FROM lessons WHERE id = ?').get(id)
-  return { lesson: mapLesson(row as Record<string, unknown>) }
+  return { lesson: mapLesson(row as DbLessonRow) }
 })

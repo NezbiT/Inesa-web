@@ -220,8 +220,3 @@ export async function generateCourseFromText(
   return { lessons, quiz }
 }
 
-/** @deprecated use generateCourseFromText */
-export async function generateLessonsFromText(courseTitle: string, sourceText: string) {
-  const result = await generateCourseFromText(courseTitle, sourceText)
-  return result.lessons
-}

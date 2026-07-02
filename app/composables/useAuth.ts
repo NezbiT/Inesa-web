@@ -1,3 +1,4 @@
+import type { AuthLoginResponse } from '#shared/types/api'
 import type { User } from '#shared/types/lms'
 
 export function useAuth() {
@@ -5,7 +6,7 @@ export function useAuth() {
   const loading = useState('auth-loading', () => false)
   const checked = useState('auth-checked', () => false)
 
-  async function fetchUser() {
+  async function fetchUser(): Promise<User | null> {
     loading.value = true
     try {
       const res = await $fetch<{ user: User }>('/api/auth/me')
@@ -20,8 +21,8 @@ export function useAuth() {
     }
   }
 
-  async function login(email: string, password: string) {
-    const res = await $fetch<{ user: User }>('/api/auth/login', {
+  async function login(email: string, password: string): Promise<User> {
+    const res = await $fetch<AuthLoginResponse>('/api/auth/login', {
       method: 'POST',
       body: { email, password },
     })
@@ -30,7 +31,7 @@ export function useAuth() {
     return res.user
   }
 
-  async function logout() {
+  async function logout(): Promise<void> {
     await $fetch('/api/auth/logout', { method: 'POST' })
     user.value = null
     await navigateTo('/academy/login')

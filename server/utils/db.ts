@@ -133,27 +133,39 @@ function runMigrations(database: Database.Database) {
   }
 }
 
-function seedDefaults(database: Database.Database) {
-  const adminEmail = process.env.INESA_ADMIN_EMAIL || 'admin@inesa.com'
-  const exists = database
-    .prepare('SELECT id FROM users WHERE email = ?')
-    .get(adminEmail)
+function seedUser(
+  database: Database.Database,
+  email: string,
+  name: string,
+  role: 'admin' | 'student',
+  password: string,
+) {
+  const exists = database.prepare('SELECT id FROM users WHERE email = ?').get(email)
   if (exists) return
 
-  const password = process.env.INESA_ADMIN_PASSWORD || 'admin123'
-  const now = new Date().toISOString()
   database
     .prepare(
       `INSERT INTO users (id, email, name, role, password_hash, created_at)
-       VALUES (?, ?, ?, 'admin', ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?)`,
     )
-    .run(
-      nanoid(),
-      adminEmail,
-      'Instructor INESA',
-      bcrypt.hashSync(password, 10),
-      now,
-    )
+    .run(nanoid(), email, name, role, bcrypt.hashSync(password, 10), new Date().toISOString())
+}
+
+function seedDefaults(database: Database.Database) {
+  seedUser(
+    database,
+    process.env.INESA_ADMIN_EMAIL || 'admin@inesa.com',
+    'Instructor INESA',
+    'admin',
+    process.env.INESA_ADMIN_PASSWORD || 'admin123',
+  )
+  seedUser(
+    database,
+    process.env.INESA_STUDENT_EMAIL || 'estudiante@inesa.com',
+    'Estudiante Demo',
+    'student',
+    process.env.INESA_STUDENT_PASSWORD || 'estudiante123',
+  )
 }
 
 export function slugify(input: string) {

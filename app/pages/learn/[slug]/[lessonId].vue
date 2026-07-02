@@ -18,7 +18,7 @@ const current = computed(() => lessons.value.find((l) => l.id === lessonId))
 const progressMap = computed(() => {
   const map = new Map<string, { percent: number; completed: boolean }>()
   for (const p of data.value?.progress ?? []) {
-    map.set(p.lesson_id, { percent: p.progress_percent, completed: Boolean(p.completed) })
+    map.set(p.lessonId, { percent: p.progressPercent, completed: p.completed })
   }
   return map
 })

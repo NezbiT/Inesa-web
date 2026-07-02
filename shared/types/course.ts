@@ -1,8 +1,10 @@
-export type CourseStatus = 'draft' | 'coming_soon' | 'published' | 'archived'
+/** Tipos del catálogo marketing (sitio público). Distintos del LMS en lms.ts */
 
-export type CourseLevel = 'beginner' | 'intermediate' | 'advanced'
+export type MarketingCourseStatus = 'draft' | 'coming_soon' | 'published' | 'archived'
 
-export interface CourseModule {
+export type MarketingCourseLevel = 'beginner' | 'intermediate' | 'advanced'
+
+export interface MarketingCourseModule {
   id: string
   title: string
   description?: string
@@ -12,17 +14,17 @@ export interface CourseModule {
   resourceUrls?: string[]
 }
 
-export interface Course {
+export interface MarketingCourse {
   id: string
   slug: string
   title: string
   description: string
-  status: CourseStatus
+  status: MarketingCourseStatus
   language: 'es' | 'en' | 'fr'
-  modules: CourseModule[]
+  modules: MarketingCourseModule[]
   thumbnailUrl?: string
   durationHours?: number
-  level?: CourseLevel
+  level?: MarketingCourseLevel
   tags?: string[]
   publishedAt?: string
 }

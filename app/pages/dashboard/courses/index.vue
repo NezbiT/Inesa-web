@@ -16,12 +16,13 @@ function statusLabel(status: string) {
 
 <template>
   <div>
-    <header class="lms-page-header lms-page-header--row">
-      <h1>Cursos</h1>
-      <NuxtLink to="/dashboard/courses/new" class="lms-btn lms-btn--primary">
-        + Nuevo curso
-      </NuxtLink>
-    </header>
+    <LmsPageHeader title="Cursos">
+      <template #actions>
+        <NuxtLink to="/dashboard/courses/new" class="lms-btn lms-btn--primary">
+          + Nuevo curso
+        </NuxtLink>
+      </template>
+    </LmsPageHeader>
 
     <div v-if="courses?.length" class="lms-grid">
       <article v-for="course in courses" :key="course.id" class="lms-course-card">
@@ -45,20 +46,3 @@ function statusLabel(status: string) {
   </div>
 </template>
 
-<style scoped>
-.lms-page-header {
-  margin-bottom: 1.6rem;
-}
-
-.lms-page-header h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.lms-page-header--row {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-</style>

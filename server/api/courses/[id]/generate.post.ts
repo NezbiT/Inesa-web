@@ -2,6 +2,7 @@ import { requireUser } from '../../../utils/auth'
 import { useDb } from '../../../utils/db'
 import { generateCourseFromText } from '../../../utils/ai'
 import { insertGeneratedCourseContent } from '../../../utils/courseContent'
+import type { DbLessonRow } from '#shared/types/db'
 import { mapLesson } from '../../../utils/mappers'
 
 export default defineEventHandler(async (event) => {
@@ -26,7 +27,7 @@ export default defineEventHandler(async (event) => {
   const lessons = db
     .prepare('SELECT * FROM lessons WHERE course_id = ? ORDER BY sort_order ASC')
     .all(id)
-    .map((row) => mapLesson(row as Record<string, unknown>))
+    .map((row) => mapLesson(row as DbLessonRow))
 
   return { lessons }
 })

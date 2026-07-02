@@ -46,10 +46,10 @@ async function onSubmit() {
 
 <template>
   <div>
-    <header class="lms-page-header">
-      <h1>Nuevo curso</h1>
-      <p>Sube un PDF y la IA generará lecciones automáticamente a partir del material.</p>
-    </header>
+    <LmsPageHeader
+      title="Nuevo curso"
+      subtitle="Sube un PDF y la IA generará lecciones automáticamente a partir del material."
+    />
 
     <section class="lms-card">
       <p v-if="error" class="lms-alert lms-alert--error">{{ error }}</p>
@@ -85,23 +85,6 @@ async function onSubmit() {
 </template>
 
 <style scoped>
-.lms-page-header {
-  margin-bottom: 1.6rem;
-}
-
-.lms-page-header h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-}
-
-.lms-page-header p {
-  color: var(--color-muted);
-  font-family: var(--font-sans);
-  font-size: 1.3rem;
-}
-
 .lms-form-actions {
   display: flex;
   flex-wrap: wrap;

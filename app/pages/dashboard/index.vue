@@ -9,9 +9,7 @@ const { data: activity } = await useAsyncData('dash-activity', () => getActivity
 
 <template>
   <div>
-    <header class="lms-page-header">
-      <h1>Resumen</h1>
-    </header>
+    <LmsPageHeader title="Resumen" />
 
     <div class="lms-stats">
       <div class="lms-stat">
@@ -76,16 +74,6 @@ const { data: activity } = await useAsyncData('dash-activity', () => getActivity
 </template>
 
 <style scoped>
-.lms-page-header {
-  margin-bottom: 1.6rem;
-}
-
-.lms-page-header h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 700;
-}
-
 .lms-quick-actions {
   display: flex;
   flex-direction: column;
