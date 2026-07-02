@@ -11,7 +11,10 @@ export default defineNuxtConfig({
     inesaJwtSecret: process.env.INESA_JWT_SECRET || 'inesa-dev-secret-change-me',
     inesaAdminEmail: process.env.INESA_ADMIN_EMAIL || 'admin@inesa.com',
     inesaAdminPassword: process.env.INESA_ADMIN_PASSWORD || 'admin123',
+    xaiApiKey: process.env.XAI_API_KEY || '',
+    xaiModel: process.env.XAI_MODEL || 'grok-4-1-fast-non-reasoning',
     openaiApiKey: process.env.OPENAI_API_KEY || '',
+    aiProvider: process.env.AI_PROVIDER || 'auto',
     public: {},
   },
 

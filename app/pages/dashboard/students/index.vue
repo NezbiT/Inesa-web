@@ -111,7 +111,8 @@ async function onCreate() {
               <div class="lms-progress" style="width: 100px">
                 <div class="lms-progress__bar" :style="{ width: `${item.progressPercent}%` }" />
               </div>
-              {{ item.completed ? '✓' : `${item.progressPercent}%` }}
+              <template v-if="'quizScore' in item && item.quizScore != null">{{ item.quizScore }}/{{ item.quizTotal }}</template>
+              <template v-else>{{ item.completed ? '✓' : `${item.progressPercent}%` }}</template>
             </td>
             <td>{{ new Date(item.updatedAt).toLocaleString('es') }}</td>
           </tr>

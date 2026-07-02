@@ -23,6 +23,22 @@ export interface GeneratedCourse {
   quiz: GeneratedQuiz
 }
 
+const SYSTEM_PROMPT = `Eres un diseñador instruccional de INESA (evaluación sensorial de alimentos).
+Devuelve SOLO JSON válido con esta forma exacta:
+{
+  "lessons": [{"title":"","description":"","contentText":""}],
+  "quiz": {
+    "title": "Evaluación final",
+    "questions": [{"question":"","options":["","","",""],"correctIndex":0,"explanation":""}]
+  }
+}
+Reglas:
+- Crea entre 3 y 6 lecciones cortas en español, claras y prácticas.
+- Crea entre 4 y 6 preguntas de opción múltiple (4 opciones cada una).
+- Las preguntas deben evaluar comprensión del material, no memorización literal.
+- correctIndex es 0-3.
+- Basate SOLO en el material proporcionado.`
+
 function buildFallbackQuiz(courseTitle: string, chunks: string[]): GeneratedQuiz {
   const questions: QuizQuestion[] = chunks.slice(0, 4).map((chunk, index) => {
     const lines = chunk.split('\n').filter(Boolean)
@@ -81,76 +97,122 @@ function buildFallbackLessons(courseTitle: string, chunks: string[]): GeneratedL
   })
 }
 
+function parseGeneratedCourse(raw: string): GeneratedCourse | null {
+  try {
+    const cleaned = raw.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
+    const parsed = JSON.parse(cleaned) as GeneratedCourse
+    if (!parsed.lessons?.length || !parsed.quiz?.questions?.length) return null
+    return {
+      lessons: parsed.lessons.slice(0, 6),
+      quiz: {
+        title: parsed.quiz.title || 'Evaluación final',
+        questions: parsed.quiz.questions.slice(0, 6).map((q) => ({
+          question: q.question,
+          options: q.options.slice(0, 4),
+          correctIndex: Math.min(Math.max(q.correctIndex, 0), 3),
+          explanation: q.explanation || '',
+        })),
+      },
+    }
+  } catch {
+    return null
+  }
+}
+
+async function callGrok(userPrompt: string): Promise<string | null> {
+  const apiKey = process.env.XAI_API_KEY
+  if (!apiKey) return null
+
+  const response = await fetch('https://api.x.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: process.env.XAI_MODEL || 'grok-4-1-fast-non-reasoning',
+      temperature: 0.4,
+      response_format: { type: 'json_object' },
+      search_parameters: { mode: 'off' },
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt },
+      ],
+    }),
+  })
+
+  if (!response.ok) {
+    console.error('[ai] Grok error:', response.status, await response.text())
+    return null
+  }
+
+  const json = await response.json()
+  return json.choices?.[0]?.message?.content ?? null
+}
+
+async function callOpenAI(userPrompt: string): Promise<string | null> {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) return null
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      temperature: 0.4,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt },
+      ],
+    }),
+  })
+
+  if (!response.ok) {
+    console.error('[ai] OpenAI error:', response.status, await response.text())
+    return null
+  }
+
+  const json = await response.json()
+  return json.choices?.[0]?.message?.content ?? null
+}
+
+async function callAiProvider(userPrompt: string): Promise<GeneratedCourse | null> {
+  const provider = (process.env.AI_PROVIDER || 'auto').toLowerCase()
+  const tryGrok = provider === 'grok' || provider === 'auto' || provider === 'xai'
+  const tryOpenAI = provider === 'openai' || provider === 'auto'
+
+  const attempts: Array<() => Promise<string | null>> = []
+  if (tryGrok) attempts.push(callGrok)
+  if (tryOpenAI) attempts.push(callOpenAI)
+
+  for (const attempt of attempts) {
+    try {
+      const content = await attempt(userPrompt)
+      if (!content) continue
+      const parsed = parseGeneratedCourse(content)
+      if (parsed) return parsed
+    } catch (err) {
+      console.error('[ai] provider failed:', err)
+    }
+  }
+
+  return null
+}
+
 export async function generateCourseFromText(
   courseTitle: string,
   sourceText: string,
 ): Promise<GeneratedCourse> {
-  const apiKey = process.env.OPENAI_API_KEY
   const chunks = splitTextIntoModules(sourceText)
 
-  if (apiKey && sourceText.length > 80) {
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
-          temperature: 0.4,
-          response_format: { type: 'json_object' },
-          messages: [
-            {
-              role: 'system',
-              content: `Eres un diseñador instruccional de INESA (evaluación sensorial de alimentos).
-Devuelve JSON con esta forma exacta:
-{
-  "lessons": [{"title":"","description":"","contentText":""}],
-  "quiz": {
-    "title": "Evaluación final",
-    "questions": [{"question":"","options":["","","",""],"correctIndex":0,"explanation":""}]
-  }
-}
-Reglas:
-- Crea entre 3 y 6 lecciones cortas en español, claras y prácticas.
-- Crea entre 4 y 6 preguntas de opción múltiple (4 opciones cada una).
-- Las preguntas deben evaluar comprensión del material, no memorización literal.
-- correctIndex es 0-3.
-- Basate SOLO en el material proporcionado.`,
-            },
-            {
-              role: 'user',
-              content: `Curso: ${courseTitle}\n\nMaterial:\n${sourceText.slice(0, 14000)}`,
-            },
-          ],
-        }),
-      })
-
-      if (response.ok) {
-        const json = await response.json()
-        const content = json.choices?.[0]?.message?.content
-        if (content) {
-          const parsed = JSON.parse(content) as GeneratedCourse
-          if (parsed.lessons?.length && parsed.quiz?.questions?.length) {
-            return {
-              lessons: parsed.lessons.slice(0, 6),
-              quiz: {
-                title: parsed.quiz.title || 'Evaluación final',
-                questions: parsed.quiz.questions.slice(0, 6).map((q) => ({
-                  question: q.question,
-                  options: q.options.slice(0, 4),
-                  correctIndex: Math.min(Math.max(q.correctIndex, 0), 3),
-                  explanation: q.explanation || '',
-                })),
-              },
-            }
-          }
-        }
-      }
-    } catch {
-      // fallback below
-    }
+  if (sourceText.length > 80) {
+    const userPrompt = `Curso: ${courseTitle}\n\nMaterial:\n${sourceText.slice(0, 14000)}`
+    const aiResult = await callAiProvider(userPrompt)
+    if (aiResult) return aiResult
   }
 
   const lessons = buildFallbackLessons(courseTitle, chunks)
