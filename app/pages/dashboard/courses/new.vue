@@ -69,7 +69,7 @@ async function onSubmit() {
           Material PDF
           <input type="file" accept=".pdf,application/pdf" required @change="onFileChange" />
         </label>
-        <p class="lms-form-hint">Grok (xAI) leerá el PDF, creará lecciones cortas y un cuestionario con calificación automática.</p>
+        <p class="lms-form-hint">Solo necesitas la API de Grok (xAI). Lee el PDF y crea lecciones + cuestionario calificado.</p>
 
         <div class="lms-form-actions">
           <button type="submit" class="lms-btn lms-btn--primary" :disabled="loading">

@@ -181,9 +181,9 @@ async function callOpenAI(userPrompt: string): Promise<string | null> {
 }
 
 async function callAiProvider(userPrompt: string): Promise<GeneratedCourse | null> {
-  const provider = (process.env.AI_PROVIDER || 'auto').toLowerCase()
+  const provider = (process.env.AI_PROVIDER || 'grok').toLowerCase()
   const tryGrok = provider === 'grok' || provider === 'auto' || provider === 'xai'
-  const tryOpenAI = provider === 'openai' || provider === 'auto'
+  const tryOpenAI = provider === 'openai'
 
   const attempts: Array<() => Promise<string | null>> = []
   if (tryGrok) attempts.push(callGrok)

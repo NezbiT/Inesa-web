@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     xaiApiKey: process.env.XAI_API_KEY || '',
     xaiModel: process.env.XAI_MODEL || 'grok-4-1-fast-non-reasoning',
     openaiApiKey: process.env.OPENAI_API_KEY || '',
-    aiProvider: process.env.AI_PROVIDER || 'auto',
+    aiProvider: process.env.AI_PROVIDER || 'grok',
     public: {},
   },
 
