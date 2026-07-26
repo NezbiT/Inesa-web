@@ -123,9 +123,16 @@
     "formTitle": "Envíenos un mensaje",
     "nameLabel": "Responsable",
     "locationLabel": "Ubicación",
+    "addressLabel": "Dirección",
+    "phoneLabel": "Teléfono",
+    "emailLabel": "Correo",
     "name": "Yamila Alvarez Coureaux",
     "email": "yamilaec{'@'}yahoo.com",
-    "location": "Houston, TX, EE.UU.",
+    "phone": "",
+    "phoneHref": "",
+    "location": "Houston, Texas, EE.UU.",
+    "address": "Houston, Texas 77002, Estados Unidos",
+    "mapsQuery": "Houston, TX, USA",
     "form": {
       "name": "Su nombre",
       "email": "Su correo electrónico",
@@ -144,7 +151,93 @@
     "rights": "Todos los derechos reservados.",
     "tagline": "Evaluación sensorial y ciencia del consumidor",
     "navigation": "Navegación",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "legal": "Legal",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio"
+  },
+  "seo": {
+    "defaultDescription": "INESA — Instituto de Evaluación Sensorial Alimentos. Evaluación sensorial, ciencia del consumidor y capacitaciones para la industria alimentaria. Houston, TX, USA."
+  },
+  "legal": {
+    "privacy": {
+      "title": "Política de privacidad",
+      "subtitle": "Cómo tratamos sus datos personales",
+      "updated": "Última actualización: julio 2026",
+      "sections": [
+        {
+          "title": "1. Responsable del tratamiento",
+          "text": "INESA (Instituto de Evaluación Sensorial Alimentos), con sede en Houston, Texas, Estados Unidos, es el responsable del tratamiento de los datos personales recogidos a través de este sitio web. Puede contactarnos en yamilaec{'@'}yahoo.com."
+        },
+        {
+          "title": "2. Datos que recopilamos",
+          "text": "Podemos recopilar: nombre, correo electrónico y mensaje cuando utiliza el formulario de contacto; datos técnicos de navegación (dirección IP aproximada, tipo de dispositivo, páginas visitadas) a través de cookies o herramientas de analítica; y datos de cuenta si se registra en INESA Academy (correo, nombre y progreso de cursos)."
+        },
+        {
+          "title": "3. Finalidad y base legal",
+          "text": "Utilizamos sus datos para responder consultas, prestar servicios de evaluación sensorial y formación, mejorar el sitio web, y cumplir obligaciones legales. La base legal puede ser el consentimiento, la ejecución de un contrato o el interés legítimo de INESA."
+        },
+        {
+          "title": "4. Cookies y analítica",
+          "text": "Este sitio puede utilizar cookies técnicas necesarias y, si está activado, Google Analytics 4 para medir visitas de forma agregada. Puede configurar su navegador para rechazar cookies no esenciales."
+        },
+        {
+          "title": "5. Conservación y destinatarios",
+          "text": "Conservamos los datos el tiempo necesario para la finalidad indicada o el exigido por ley. No vendemos datos personales. Pueden tratarse por proveedores de alojamiento (p. ej. Vercel) y analítica bajo acuerdos de encargados del tratamiento."
+        },
+        {
+          "title": "6. Sus derechos",
+          "text": "Según la legislación aplicable (incluido el GDPR cuando proceda), puede solicitar acceso, rectificación, supresión, limitación, portabilidad u oposición escribiendo a yamilaec{'@'}yahoo.com. También puede presentar una reclamación ante la autoridad de control competente."
+        },
+        {
+          "title": "7. Seguridad y menores",
+          "text": "Aplicamos medidas técnicas y organizativas razonables para proteger los datos. Este sitio no está dirigido a menores de 16 años."
+        },
+        {
+          "title": "8. Cambios",
+          "text": "Podemos actualizar esta política. La fecha de última actualización se indica al inicio de la página."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos de servicio",
+      "subtitle": "Condiciones de uso del sitio y de INESA Academy",
+      "updated": "Última actualización: julio 2026",
+      "sections": [
+        {
+          "title": "1. Aceptación",
+          "text": "Al acceder a https://inesa.institute y a INESA Academy, usted acepta estos términos. Si no está de acuerdo, no utilice el sitio."
+        },
+        {
+          "title": "2. Servicios",
+          "text": "INESA ofrece información institucional, servicios de evaluación sensorial y ciencia del consumidor, y una plataforma de formación online (Academy). El contenido informativo no constituye asesoramiento legal o regulatorio vinculante salvo acuerdo escrito."
+        },
+        {
+          "title": "3. Cuentas de Academy",
+          "text": "Usted es responsable de la confidencialidad de sus credenciales y del uso de su cuenta. Las cuentas de demostración son solo para pruebas. Nos reservamos el derecho de suspender cuentas por uso indebido."
+        },
+        {
+          "title": "4. Propiedad intelectual",
+          "text": "Los textos, logotipos, materiales de cursos, imágenes y software del sitio pertenecen a INESA o a sus licenciantes. Queda prohibida la reproducción no autorizada con fines comerciales."
+        },
+        {
+          "title": "5. Uso aceptable",
+          "text": "No debe utilizar el sitio para actividades ilegales, interferir con su seguridad o disponibilidad, ni cargar malware o contenido ofensivo."
+        },
+        {
+          "title": "6. Limitación de responsabilidad",
+          "text": "El sitio se ofrece «tal cual». En la medida permitida por la ley, INESA no responde por daños indirectos, pérdida de datos o interrupciones del servicio, incluidas las derivadas de la infraestructura de terceros."
+        },
+        {
+          "title": "7. Enlaces externos",
+          "text": "Los enlaces a redes sociales u otros sitios son solo informativos; no controlamos ni respondemos por su contenido o políticas."
+        },
+        {
+          "title": "8. Ley aplicable",
+          "text": "Estos términos se rigen por las leyes aplicables del Estado de Texas, EE.UU., sin perjuicio de derechos imperativos del consumidor en su jurisdicción. Contacto: yamilaec{'@'}yahoo.com — Houston, TX, USA."
+        }
+      ]
+    }
   },
   "lang": {
     "label": "Idioma",

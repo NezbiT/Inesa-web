@@ -1,6 +1,11 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const values = useLocaleArray<{ title: string; text: string }>('about.values')
+
+useSiteSeo({
+  title: `${t('about.title')} — INESA`,
+  description: t('about.subtitle'),
+})
 </script>
 
 <template>
@@ -10,11 +15,15 @@ const values = useLocaleArray<{ title: string; text: string }>('about.values')
     <div class="container page">
       <div class="about-intro panel">
         <div class="about-intro__image">
-          <img
+          <UiResponsiveImage
             src="/images/gallery/featured/featured-05.jpg"
+            webp-src="/images/gallery/featured/featured-05.webp"
             :alt="t('gallery.photoAlt', { n: 9 })"
+            width="800"
+            height="600"
             loading="lazy"
-          >
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
         <div class="about-intro__text">
           <h2>{{ t('about.missionTitle') }}</h2>
@@ -30,11 +39,15 @@ const values = useLocaleArray<{ title: string; text: string }>('about.values')
           <p>{{ t('about.paragraph4') }}</p>
         </section>
         <section class="panel panel--image">
-          <img
+          <UiResponsiveImage
             src="/images/gallery/featured/featured-01.jpg"
+            webp-src="/images/gallery/featured/featured-01.webp"
             :alt="t('gallery.photoAlt', { n: 1 })"
+            width="800"
+            height="600"
             loading="lazy"
-          >
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </section>
       </div>
 

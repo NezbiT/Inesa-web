@@ -1,4 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+const securityHeaders = {
+  'X-Frame-Options': 'SAMEORIGIN',
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+  'X-DNS-Prefetch-Control': 'on',
+  'Content-Security-Policy': [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'self'",
+    "object-src 'none'",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
+    "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com",
+    'upgrade-insecure-requests',
+  ].join('; '),
+}
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -12,32 +34,49 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css', '~/assets/css/lms.css'],
 
-  // Marketing pages as static HTML so SSR cold starts / native deps can't take down the site.
+  // Marketing + academy shells as static HTML so SSR cold starts / native deps
+  // cannot take down public pages. LMS APIs remain dynamic.
   routeRules: {
+    '/**': { headers: securityHeaders },
     '/': { prerender: true },
     '/about': { prerender: true },
     '/services': { prerender: true },
     '/gallery': { prerender: true },
     '/contact': { prerender: true },
     '/courses': { prerender: true },
+    '/privacy': { prerender: true },
+    '/terms': { prerender: true },
+    '/academy': { prerender: true },
+    '/academy/login': { prerender: true },
     '/en': { prerender: true },
     '/en/about': { prerender: true },
     '/en/services': { prerender: true },
     '/en/gallery': { prerender: true },
     '/en/contact': { prerender: true },
     '/en/courses': { prerender: true },
+    '/en/privacy': { prerender: true },
+    '/en/terms': { prerender: true },
     '/fr': { prerender: true },
     '/fr/about': { prerender: true },
     '/fr/services': { prerender: true },
     '/fr/gallery': { prerender: true },
     '/fr/contact': { prerender: true },
     '/fr/courses': { prerender: true },
+    '/fr/privacy': { prerender: true },
+    '/fr/terms': { prerender: true },
   },
 
   nitro: {
-    // Do not bundle native / browser-coupled packages into the serverless function entry.
+    // Keep heavy PDF parsers out of the serverless entry graph.
+    // better-sqlite3 is lazy-required in server/utils/db.ts (not top-level imported)
+    // so marketing SSR does not crash when the native module is unavailable.
     rollupConfig: {
-      external: ['better-sqlite3', 'pdf-parse', 'pdfjs-dist'],
+      external: ['pdf-parse', 'pdfjs-dist'],
+    },
+    compressPublicAssets: true,
+    prerender: {
+      crawlLinks: true,
+      failOnError: false,
     },
   },
 
@@ -50,7 +89,11 @@ export default defineNuxtConfig({
     xaiApiKey: process.env.XAI_API_KEY || '',
     xaiModel: process.env.XAI_MODEL || 'grok-4-1-fast-non-reasoning',
     aiProvider: process.env.AI_PROVIDER || 'gemini',
-    public: {},
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://inesa.institute',
+      // Set NUXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXX on Vercel to enable GA4
+      gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
+    },
   },
 
   app: {
@@ -59,15 +102,42 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'es' },
       meta: [
         { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1, viewport-fit=cover',
+        },
         { name: 'theme-color', content: '#e94f1d' },
         {
           name: 'description',
           content:
-            'INESA — Instituto de Evaluación Sensorial Alimentos. Houston, TX, USA.',
+            'INESA — Instituto de Evaluación Sensorial Alimentos. Evaluación sensorial, ciencia del consumidor y capacitaciones. Houston, TX, USA.',
         },
+        { name: 'format-detection', content: 'telephone=yes' },
+        // Default Open Graph (pages can override via useSiteSeo)
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: 'INESA' },
+        { property: 'og:title', content: 'INESA — Sensory Evaluation Institute' },
+        {
+          property: 'og:description',
+          content:
+            'Instituto de evaluación sensorial y ciencia del consumidor. Houston, TX, USA.',
+        },
+        { property: 'og:url', content: 'https://inesa.institute' },
+        { property: 'og:image', content: 'https://inesa.institute/og-image.jpg' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { property: 'og:locale', content: 'es_ES' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'INESA — Sensory Evaluation Institute' },
+        {
+          name: 'twitter:description',
+          content:
+            'Instituto de evaluación sensorial y ciencia del consumidor. Houston, TX, USA.',
+        },
+        { name: 'twitter:image', content: 'https://inesa.institute/og-image.jpg' },
       ],
       link: [
+        { rel: 'canonical', href: 'https://inesa.institute' },
         { rel: 'icon', type: 'image/png', href: '/logo-inesa.png' },
         { rel: 'apple-touch-icon', href: '/logo-inesa.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

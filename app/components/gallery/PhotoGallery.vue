@@ -115,11 +115,14 @@ onUnmounted(() => {
         :class="{ 'gallery-card--featured': photo.featured }"
         @click="openPhoto(index)"
       >
-        <img
+        <UiResponsiveImage
           :src="photo.src"
+          :webp-src="photo.src.replace(/\.(jpe?g|png)$/i, '.webp')"
           :alt="t('gallery.photoAlt', { n: photo.id })"
+          width="640"
+          height="480"
           loading="lazy"
-          decoding="async"
+          sizes="(max-width: 768px) 100vw, 33vw"
         />
       </button>
     </div>

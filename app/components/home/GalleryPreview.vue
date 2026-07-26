@@ -18,10 +18,14 @@ const { previewImages, previewLayoutClasses } = useGallery()
         class="bento-item"
         :class="previewLayoutClasses[index]"
       >
-        <img
+        <UiResponsiveImage
           :src="src"
+          :webp-src="src.replace(/\.(jpe?g|png)$/i, '.webp')"
           :alt="t('gallery.photoAlt', { n: index + 1 })"
+          width="640"
+          height="480"
           loading="lazy"
+          sizes="(max-width: 768px) 50vw, 33vw"
         />
         <span class="bento-item__shade" aria-hidden="true" />
       </NuxtLink>

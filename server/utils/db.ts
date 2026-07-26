@@ -1,10 +1,12 @@
-import Database from 'better-sqlite3'
 import bcrypt from 'bcryptjs'
-import { nanoid } from 'nanoid'
+import { createRequire } from 'node:module'
 import { join } from 'node:path'
 import { mkdirSync } from 'node:fs'
+import { nanoid } from 'nanoid'
+import type Database from 'better-sqlite3'
 
 let db: Database.Database | null = null
+let dbInitError: Error | null = null
 
 function getDbPath() {
   // Vercel serverless filesystem is read-only except /tmp
@@ -14,15 +16,44 @@ function getDbPath() {
   return join(dir, 'inesa-lms.db')
 }
 
+/**
+ * Lazy-load better-sqlite3 so marketing/SSR routes do not crash at cold start
+ * when the native package is missing or not yet traced into the serverless bundle.
+ *
+ * Use createRequire(process.cwd()/package.json) — import.meta.url is unreliable
+ * during Nitro prerender (virtual file:///_entry.js).
+ */
+function loadDatabaseConstructor(): typeof Database {
+  const req = createRequire(join(process.cwd(), 'package.json'))
+  return req('better-sqlite3') as typeof Database
+}
+
 export function useDb() {
-  if (!db) {
-    db = new Database(getDbPath())
+  if (db) return db
+  if (dbInitError) throw dbInitError
+
+  try {
+    const DatabaseCtor = loadDatabaseConstructor()
+    db = new DatabaseCtor(getDbPath())
     db.pragma('journal_mode = WAL')
     initSchema(db)
     runMigrations(db)
     seedDefaults(db)
+    return db
+  } catch (error) {
+    dbInitError = error instanceof Error ? error : new Error(String(error))
+    console.error('[inesa-db] Failed to open SQLite database:', dbInitError)
+    throw dbInitError
   }
-  return db
+}
+
+/** Safe DB access for catalog/public endpoints that can degrade gracefully. */
+export function tryUseDb(): Database.Database | null {
+  try {
+    return useDb()
+  } catch {
+    return null
+  }
 }
 
 function initSchema(database: Database.Database) {

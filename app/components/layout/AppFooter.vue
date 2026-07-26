@@ -13,6 +13,14 @@ const links = computed(() => [
   { label: t('nav.gallery'), to: '/gallery' },
   { label: t('nav.contact'), to: '/contact' },
 ])
+
+const legalLinks = computed(() => [
+  { label: t('footer.privacy'), to: '/privacy' },
+  { label: t('footer.terms'), to: '/terms' },
+])
+
+const phone = computed(() => t('contact.phone').trim())
+const phoneHref = computed(() => t('contact.phoneHref').trim())
 </script>
 
 <template>
@@ -37,7 +45,18 @@ const links = computed(() => [
       </nav>
       <div class="footer-contact">
         <h3>{{ t('footer.contact') }}</h3>
-        <p>{{ t('contact.location') }}</p>
+        <p>
+          <a
+            :href="`https://maps.google.com/maps?q=${encodeURIComponent(t('contact.mapsQuery'))}`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('contact.address') }}
+          </a>
+        </p>
+        <p v-if="phone && phoneHref">
+          <a :href="`tel:${phoneHref}`">{{ phone }}</a>
+        </p>
         <p>
           <a :href="`mailto:${t('contact.email')}`">{{ t('contact.email') }}</a>
         </p>
@@ -46,6 +65,15 @@ const links = computed(() => [
     </div>
     <div class="footer-bottom">
       <p>&copy; {{ year }} {{ t('site.title') }}. {{ t('footer.rights') }}</p>
+      <nav class="footer-legal" :aria-label="t('footer.legal')">
+        <NuxtLink
+          v-for="link in legalLinks"
+          :key="link.to"
+          :to="localePath(link.to)"
+        >
+          {{ link.label }}
+        </NuxtLink>
+      </nav>
     </div>
   </footer>
 </template>

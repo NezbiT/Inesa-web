@@ -1,7 +1,7 @@
 import type { CatalogCourse, CoursesListResponse } from '#shared/types/api'
 import type { DbCourseRow } from '#shared/types/db'
 import { getSessionUser } from '../../utils/auth'
-import { useDb } from '../../utils/db'
+import { tryUseDb } from '../../utils/db'
 import { mapCourse } from '../../utils/mappers'
 
 function withEnrollment(
@@ -16,8 +16,13 @@ function withEnrollment(
 
 export default defineEventHandler(async (event): Promise<CoursesListResponse> => {
   const user = await getSessionUser(event)
-  const db = useDb()
+  const db = tryUseDb()
   const catalog = getQuery(event).catalog === 'true' || getQuery(event).catalog === '1'
+
+  // Degrade gracefully when SQLite native module is unavailable (e.g. mis-traced deploy).
+  if (!db) {
+    return { courses: [] }
+  }
 
   if (!user) {
     const rows = db

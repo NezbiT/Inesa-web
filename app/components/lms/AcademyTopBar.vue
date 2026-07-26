@@ -7,7 +7,14 @@ onMounted(() => fetchUser())
 <template>
   <header class="lms-academy-topbar">
     <NuxtLink to="/academy" class="lms-academy-topbar__brand">
-      <img src="/logo-inesa.png" alt="" width="28" height="28" />
+      <UiResponsiveImage
+        src="/logo-inesa.png"
+        webp-src="/logo-inesa.webp"
+        alt=""
+        width="28"
+        height="28"
+        loading="eager"
+      />
       INESA Academy
     </NuxtLink>
 

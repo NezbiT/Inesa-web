@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "logo:layers": "python scripts/generate-logo-layers.py",
+    "images:webp": "python scripts/generate-webp.py",
     "postinstall": "nuxt prepare",
     "knip": "knip",
     "storybook": "storybook dev -p 6006",

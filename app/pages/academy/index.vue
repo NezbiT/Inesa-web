@@ -3,13 +3,20 @@ import type { CatalogCourse } from '#shared/types/api'
 
 definePageMeta({ layout: 'blank' })
 
+useSiteSeo({
+  title: 'INESA Academy — Capacitaciones',
+  description:
+    'Cursos de evaluación sensorial con video, audio y material de estudio. Plataforma de formación INESA.',
+  path: '/academy',
+})
+
 const { getCourses, enroll } = useLms()
 const { user, fetchUser } = useAuth()
 
 const { data: courses, refresh } = await useAsyncData(
   'academy-courses',
-  () => getCourses({ catalog: true }),
-  { server: false },
+  () => getCourses({ catalog: true }).catch(() => [] as CatalogCourse[]),
+  { server: false, default: () => [] as CatalogCourse[] },
 )
 
 async function reloadCatalog() {
@@ -67,7 +74,15 @@ async function onCourseAction(course: CatalogCourse) {
 <template>
   <div class="lms-academy">
     <section class="lms-academy-hero">
-      <img src="/logo-inesa.png" alt="INESA" width="72" height="72" style="margin: 0 auto 1.2rem" />
+      <UiResponsiveImage
+        src="/logo-inesa.png"
+        webp-src="/logo-inesa.webp"
+        alt="INESA"
+        width="72"
+        height="72"
+        loading="eager"
+        class="lms-academy-hero__logo"
+      />
       <h1>INESA Academy</h1>
       <p>Cursos de evaluación sensorial con video, audio y material de estudio generado con IA.</p>
       <div class="lms-academy-hero__actions">

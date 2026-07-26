@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 
 const { t } = useI18n()
+
+useSiteSeo({
+  title: `${t('contact.title')} — INESA`,
+  description: t('contact.subtitle'),
+})
+useLocalBusinessSchema()
 
 const form = reactive({
   name: '',
@@ -10,6 +16,8 @@ const form = reactive({
 })
 
 const status = ref<'success' | 'error' | null>(null)
+const phone = computed(() => t('contact.phone').trim())
+const phoneHref = computed(() => t('contact.phoneHref').trim())
 
 function submitForm() {
   if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
@@ -43,18 +51,26 @@ function submitForm() {
               <span>{{ t('contact.name') }}</span>
             </li>
             <li>
-              <span class="label">Email</span>
+              <span class="label">{{ t('contact.emailLabel') }}</span>
               <a :href="`mailto:${t('contact.email')}`">{{ t('contact.email') }}</a>
             </li>
+            <li v-if="phone && phoneHref">
+              <span class="label">{{ t('contact.phoneLabel') }}</span>
+              <a :href="`tel:${phoneHref}`">{{ phone }}</a>
+            </li>
             <li>
-              <span class="label">{{ t('contact.locationLabel') }}</span>
+              <span class="label">{{ t('contact.addressLabel') }}</span>
               <a
-                href="https://maps.google.com/maps?q=Houston,+TX,+USA"
+                :href="`https://maps.google.com/maps?q=${encodeURIComponent(t('contact.mapsQuery'))}`"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {{ t('contact.location') }}
+                {{ t('contact.address') }}
               </a>
+            </li>
+            <li>
+              <span class="label">{{ t('contact.locationLabel') }}</span>
+              <span>{{ t('contact.location') }}</span>
             </li>
             <li>
               <span class="label">{{ t('social.title') }}</span>
@@ -68,11 +84,11 @@ function submitForm() {
           <form class="contact-form" @submit.prevent="submitForm">
             <label>
               {{ t('contact.form.name') }}
-              <input v-model="form.name" type="text" required>
+              <input v-model="form.name" type="text" required autocomplete="name">
             </label>
             <label>
               {{ t('contact.form.email') }}
-              <input v-model="form.email" type="email" required>
+              <input v-model="form.email" type="email" required autocomplete="email">
             </label>
             <label>
               {{ t('contact.form.message') }}

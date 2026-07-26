@@ -4,6 +4,13 @@ import { isSafeLearnRedirect, resolvePostLoginPath } from '~/utils/academyRedire
 
 definePageMeta({ layout: 'blank' })
 
+useSiteSeo({
+  title: 'INESA Academy — Login',
+  description: 'Acceso de estudiantes e instructores a la plataforma de formación INESA.',
+  path: '/academy/login',
+  noindex: true,
+})
+
 type LoginRole = 'student' | 'admin'
 
 const route = useRoute()
@@ -88,7 +95,15 @@ async function onSubmit() {
 <template>
   <div class="lms-login">
     <div class="lms-login__card">
-      <img src="/logo-inesa.png" alt="INESA" class="lms-login__logo" />
+      <UiResponsiveImage
+        src="/logo-inesa.png"
+        webp-src="/logo-inesa.webp"
+        alt="INESA"
+        width="96"
+        height="96"
+        loading="eager"
+        class="lms-login__logo"
+      />
       <h1>INESA Academy</h1>
       <p>Elige cómo quieres entrar a la plataforma</p>
 

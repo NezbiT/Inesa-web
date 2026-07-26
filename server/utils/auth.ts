@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose'
 import type { H3Event } from 'h3'
 import type { User, UserRole } from '#shared/types/lms'
-import { useDb } from './db'
+import { tryUseDb } from './db'
 
 const COOKIE = 'inesa-session'
 
@@ -51,7 +51,9 @@ export async function getSessionUser(event: H3Event) {
   if (!token) return null
   try {
     const session = await verifyToken(token)
-    const row = useDb()
+    const db = tryUseDb()
+    if (!db) return null
+    const row = db
       .prepare('SELECT id, email, name, role, created_at FROM users WHERE id = ?')
       .get(session.id) as
       | {
