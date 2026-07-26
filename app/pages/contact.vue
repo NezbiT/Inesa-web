@@ -17,7 +17,7 @@ function submitForm() {
     return
   }
 
-  const subject = encodeURIComponent(`INESA~CA — ${form.name}`)
+  const subject = encodeURIComponent(`INESA — ${form.name}`)
   const body = encodeURIComponent(
     `${form.message}\n\n— ${form.name}\n${form.email}`,
   )

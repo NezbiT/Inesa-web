@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'INESA~C.A — Sensory Evaluation Institute',
+      title: 'INESA — Sensory Evaluation Institute',
       htmlAttrs: { lang: 'es' },
       meta: [
         { charset: 'utf-8' },
@@ -35,7 +35,7 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content:
-            'INESA~C.A — Instituto de Evaluación Sensorial Alimentos. Houston, TX, USA.',
+            'INESA — Instituto de Evaluación Sensorial Alimentos. Houston, TX, USA.',
         },
       ],
       link: [

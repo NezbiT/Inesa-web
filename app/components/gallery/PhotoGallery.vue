@@ -20,7 +20,7 @@ const photos = computed(() => {
     activeCategory.value === 'all'
       ? galleryImages.map((src) => {
           const category =
-            galleryCategories.find((entry) => entry.images.includes(src))?.id ?? 'events'
+            galleryCategories.find((entry) => entry.images.includes(src))?.id ?? 'featured'
           return {
             src,
             category,

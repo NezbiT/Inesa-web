@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/logo-inesa.png" alt="INESA~C.A" width="220" />
+  <img src="public/logo-inesa.png" alt="INESA" width="220" />
 </p>
 
-<h1 align="center">INESA~C.A — Sitio Web</h1>
+<h1 align="center">INESA — Sitio Web</h1>
 
 <p align="center">
   <strong>Instituto de Evaluación Sensorial Alimentos</strong><br />
@@ -13,25 +13,25 @@
   <img src="https://img.shields.io/badge/Nuxt-4.4-00DC82?style=flat-square&logo=nuxt.js&logoColor=white" alt="Nuxt 4" />
   <img src="https://img.shields.io/badge/Vue-3.5-4FC08D?style=flat-square&logo=vue.js&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/i18n-ES%20%7C%20EN%20%7C%20FR-e94f1d?style=flat-square" alt="i18n" />
-  <img src="https://img.shields.io/badge/Galería-118%20fotos-555?style=flat-square" alt="Gallery" />
+  <img src="https://img.shields.io/badge/Galería-37%20fotos-555?style=flat-square" alt="Gallery" />
 </p>
 
 ---
 
-Sitio institucional de **INESA~C.A**, reconstruido con **Nuxt 4** y preparado para una futura plataforma de capacitaciones online. Incluye información de servicios, galería fotográfica de eventos y laboratorio, y contacto en tres idiomas.
+Sitio institucional de **INESA**, reconstruido con **Nuxt 4** y preparado para una futura plataforma de capacitaciones online. Incluye información de servicios, galería fotográfica de laboratorio e institucional, y contacto en tres idiomas.
 
 ## Vista previa
 
 <p align="center">
-  <img src="public/images/gallery/featured/featured-04.jpg" alt="Evento INESA" width="32%" />
-  <img src="public/images/gallery/featured/featured-09.jpg" alt="Capacitación sensorial" width="32%" />
+  <img src="public/images/gallery/featured/featured-01.jpg" alt="Evento INESA" width="32%" />
+  <img src="public/images/gallery/featured/featured-05.jpg" alt="Capacitación sensorial" width="32%" />
   <img src="public/images/gallery/analysis/DSC_5112.JPG" alt="Laboratorio de análisis" width="32%" />
 </p>
 
 ## Características
 
 - **Multilingüe** — Español (por defecto), inglés y francés con `@nuxtjs/i18n`
-- **Galería interactiva** — 118 fotos en categorías: destacadas, eventos, análisis e institucional
+- **Galería interactiva** — 37 fotos en categorías: destacadas, análisis e institucional
 - **Diseño responsive** — Navegación móvil, hero, tarjetas de servicios y lightbox
 - **Capacitaciones** — Página `/courses` lista para integrar LMS
 - **SEO y branding** — Meta tags, favicon y logo transparente INESA
@@ -52,8 +52,8 @@ Rutas en inglés y francés: `/en/...`, `/fr/...`
 ## Galería
 
 <p align="center">
-  <img src="public/images/gallery/events/5515487916_891be202bc_m.jpg" alt="Evento" width="24%" />
-  <img src="public/images/gallery/events/5515561404_6b150f4c19_m.jpg" alt="Seminario" width="24%" />
+  <img src="public/images/gallery/featured/featured-02.jpg" alt="Destacada" width="24%" />
+  <img src="public/images/gallery/featured/featured-06.jpg" alt="Capacitación" width="24%" />
   <img src="public/images/gallery/institutional/prof OMahony.jpg" alt="Prof. O'Mahony" width="24%" />
   <img src="public/images/gallery/analysis/DSC_5130.JPG" alt="Análisis sensorial" width="24%" />
 </p>
@@ -104,7 +104,7 @@ Abrir [http://localhost:3000](http://localhost:3000) (Nuxt elige otro puerto si 
 ├── i18n/locales/        # es.json, en.json, fr.json
 ├── public/
 │   ├── logo-inesa.png   # Logo transparente (favicon + branding)
-│   └── images/gallery/  # 118 fotos del instituto
+│   └── images/gallery/  # 37 fotos del instituto
 ├── shared/
 │   ├── data/            # gallery.ts, courses.ts
 │   └── types/           # Tipos TypeScript
@@ -118,7 +118,7 @@ Abrir [http://localhost:3000](http://localhost:3000) (Nuxt elige otro puerto si 
 
 ## Licencia
 
-Proyecto privado de INESA~C.A. Todos los derechos reservados.
+Proyecto privado de INESA. Todos los derechos reservados.
 
 ---
 

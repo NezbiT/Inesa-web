@@ -10,27 +10,27 @@
     "close": "Cerrar"
   },
   "site": {
-    "title": "INESA~C.A",
+    "title": "INESA",
     "subtitle": "Instituto de Evaluación Sensorial Alimentos"
   },
   "home": {
     "title": "Bienvenidos",
     "heroTitle": "Excelencia en evaluación sensorial y ciencia del consumidor",
     "paragraph1": "Somos un instituto que ofrece un amplio rango de servicios enfocados a la evaluación sensorial y a la ciencia del consumidor, en la industria alimentaria y productos de consumo.",
-    "paragraph2": "INESA~CA es reconocida por su experticia y su contribución en la temática a través de investigaciones, publicaciones, cursos internacionales y consultorías al sector empresarial.",
-    "paragraph3": "Contacte con INESA~CA para explorar cómo nuestros servicios pueden en su empresa perfeccionar su producto aportando mejorías para su cliente.",
+    "paragraph2": "INESA es reconocida por su experticia y su contribución en la temática a través de investigaciones, publicaciones, cursos internacionales y consultorías al sector empresarial.",
+    "paragraph3": "Contacte con INESA para explorar cómo nuestros servicios pueden en su empresa perfeccionar su producto aportando mejorías para su cliente.",
     "paragraph4": "Les invitamos a conocer nuestra experiencia y habilidades en la resolución de problemas empleando el análisis sensorial.",
     "cta": "Contáctenos",
     "servicesCta": "Ver servicios",
     "servicesLink": "Todos los servicios",
     "aboutLink": "Conocer más",
-    "galleryTitle": "Galería de eventos",
-    "galleryLink": "Ver las 118 fotos",
+    "galleryTitle": "Galería",
+    "galleryLink": "Ver las 37 fotos",
     "contactCardTitle": "Contacto directo",
     "finalCtaTitle": "¿Listo para mejorar su producto?",
     "finalCtaText": "Nuestro equipo le brinda atención personalizada y profesional para resolver desafíos sensoriales en su empresa.",
     "highlights": [
-      { "stat": "118+", "label": "Fotos de eventos y laboratorio" },
+      { "stat": "37+", "label": "Fotos de laboratorio e institucionales" },
       { "stat": "3", "label": "Idiomas disponibles" },
       { "stat": "100%", "label": "Enfoque personalizado" }
     ]
@@ -42,8 +42,8 @@
     "approachTitle": "Nuestro enfoque",
     "valuesTitle": "Valores institucionales",
     "paragraph1": "Somos un instituto que ofrece un amplio rango de servicios enfocados a la evaluación sensorial y a la ciencia del consumidor, en la industria alimentaria y productos de consumo, donde usted recibirá atención personalizada y profesional.",
-    "paragraph2": "INESA~CA es reconocida por su experticia y su contribución en la temática a través de investigaciones, publicaciones, cursos internacionales y consultorías al sector empresarial.",
-    "paragraph3": "Contacte con INESA~CA para explorar cómo nuestros servicios pueden en su empresa perfeccionar su producto aportando mejorías para su cliente.",
+    "paragraph2": "INESA es reconocida por su experticia y su contribución en la temática a través de investigaciones, publicaciones, cursos internacionales y consultorías al sector empresarial.",
+    "paragraph3": "Contacte con INESA para explorar cómo nuestros servicios pueden en su empresa perfeccionar su producto aportando mejorías para su cliente.",
     "paragraph4": "Les invitamos a conocer nuestra experiencia y habilidades en la resolución de problemas empleando el análisis sensorial a través de nuestro sitio y noticias en las redes sociales.",
     "values": [
       { "title": "Rigor científico", "text": "Metodologías validadas y análisis basados en evidencia." },
@@ -75,7 +75,7 @@
     "subtitle": "Formación en evaluación sensorial y ciencia del consumidor",
     "badge": "Próximamente",
     "introTitle": "Plataforma de capacitaciones online",
-    "intro": "Estamos desarrollando una plataforma de aprendizaje en línea para compartir el conocimiento y la experiencia de INESA~CA.",
+    "intro": "Estamos desarrollando una plataforma de aprendizaje en línea para compartir el conocimiento y la experiencia de INESA.",
     "description": "Pronto podrá acceder a cursos, módulos y recursos especializados en evaluación sensorial desde cualquier lugar del mundo.",
     "platformLabel": "INESA Learning",
     "featuresTitle": "Qué incluirá la plataforma",

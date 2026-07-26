@@ -10,27 +10,27 @@
     "close": "Fermer"
   },
   "site": {
-    "title": "INESA~C.A",
+    "title": "INESA",
     "subtitle": "Institut d'Évaluation Sensorielle des Aliments"
   },
   "home": {
     "title": "Bienvenue",
     "heroTitle": "Excellence en évaluation sensorielle et science du consommateur",
     "paragraph1": "Nous sommes un institut offrant un large éventail de services axés sur l'évaluation sensorielle et la science du consommateur dans l'industrie alimentaire et les produits de consommation.",
-    "paragraph2": "INESA~CA est reconnue pour son expertise et sa contribution au domaine à travers la recherche, les publications, les cours internationaux et le conseil au secteur des entreprises.",
-    "paragraph3": "Contactez INESA~CA pour explorer comment nos services peuvent aider votre entreprise à perfectionner votre produit.",
+    "paragraph2": "INESA est reconnue pour son expertise et sa contribution au domaine à travers la recherche, les publications, les cours internationaux et le conseil au secteur des entreprises.",
+    "paragraph3": "Contactez INESA pour explorer comment nos services peuvent aider votre entreprise à perfectionner votre produit.",
     "paragraph4": "Nous vous invitons à découvrir notre expérience et nos compétences dans la résolution de problèmes en utilisant l'analyse sensorielle.",
     "cta": "Contactez-nous",
     "servicesCta": "Voir les services",
     "servicesLink": "Tous les services",
     "aboutLink": "En savoir plus",
-    "galleryTitle": "Galerie d'événements",
-    "galleryLink": "Voir les 118 photos",
+    "galleryTitle": "Galerie",
+    "galleryLink": "Voir les 37 photos",
     "contactCardTitle": "Contact direct",
     "finalCtaTitle": "Prêt à améliorer votre produit ?",
     "finalCtaText": "Notre équipe offre un accompagnement personnalisé et professionnel pour résoudre les défis sensoriels de votre entreprise.",
     "highlights": [
-      { "stat": "118+", "label": "Photos d'événements et de laboratoire" },
+      { "stat": "37+", "label": "Photos de laboratoire et institutionnelles" },
       { "stat": "3", "label": "Langues disponibles" },
       { "stat": "100%", "label": "Approche personnalisée" }
     ]
@@ -42,8 +42,8 @@
     "approachTitle": "Notre approche",
     "valuesTitle": "Valeurs institutionnelles",
     "paragraph1": "Nous sommes un institut offrant un large éventail de services axés sur l'évaluation sensorielle et la science du consommateur dans l'industrie alimentaire et les produits de consommation.",
-    "paragraph2": "INESA~CA est reconnue pour son expertise et sa contribution au domaine à travers la recherche, les publications, les cours internationaux et le conseil au secteur des entreprises.",
-    "paragraph3": "Contactez INESA~CA pour explorer comment nos services peuvent aider votre entreprise à perfectionner votre produit.",
+    "paragraph2": "INESA est reconnue pour son expertise et sa contribution au domaine à travers la recherche, les publications, les cours internationaux et le conseil au secteur des entreprises.",
+    "paragraph3": "Contactez INESA pour explorer comment nos services peuvent aider votre entreprise à perfectionner votre produit.",
     "paragraph4": "Nous vous invitons à découvrir notre expérience et nos compétences dans la résolution de problèmes en utilisant l'analyse sensorielle.",
     "values": [
       { "title": "Rigueur scientifique", "text": "Méthodologies validées et analyse fondée sur des preuves." },
@@ -75,7 +75,7 @@
     "subtitle": "Formation en évaluation sensorielle et science du consommateur",
     "badge": "Bientôt disponible",
     "introTitle": "Plateforme de formations en ligne",
-    "intro": "Nous développons une plateforme d'apprentissage en ligne pour partager l'expertise d'INESA~CA.",
+    "intro": "Nous développons une plateforme d'apprentissage en ligne pour partager l'expertise d'INESA.",
     "description": "Bientôt, vous pourrez accéder à des cours, modules et ressources spécialisées en évaluation sensorielle.",
     "platformLabel": "INESA Learning",
     "featuresTitle": "Ce que la plateforme inclura",
