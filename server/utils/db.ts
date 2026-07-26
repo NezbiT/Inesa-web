@@ -7,7 +7,8 @@ import { mkdirSync } from 'node:fs'
 let db: Database.Database | null = null
 
 function getDbPath() {
-  const root = process.cwd()
+  // Vercel serverless filesystem is read-only except /tmp
+  const root = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME ? '/tmp' : process.cwd()
   const dir = join(root, '.data')
   mkdirSync(dir, { recursive: true })
   return join(dir, 'inesa-lms.db')

@@ -12,6 +12,35 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css', '~/assets/css/lms.css'],
 
+  // Marketing pages as static HTML so SSR cold starts / native deps can't take down the site.
+  routeRules: {
+    '/': { prerender: true },
+    '/about': { prerender: true },
+    '/services': { prerender: true },
+    '/gallery': { prerender: true },
+    '/contact': { prerender: true },
+    '/courses': { prerender: true },
+    '/en': { prerender: true },
+    '/en/about': { prerender: true },
+    '/en/services': { prerender: true },
+    '/en/gallery': { prerender: true },
+    '/en/contact': { prerender: true },
+    '/en/courses': { prerender: true },
+    '/fr': { prerender: true },
+    '/fr/about': { prerender: true },
+    '/fr/services': { prerender: true },
+    '/fr/gallery': { prerender: true },
+    '/fr/contact': { prerender: true },
+    '/fr/courses': { prerender: true },
+  },
+
+  nitro: {
+    // Do not bundle native / browser-coupled packages into the serverless function entry.
+    rollupConfig: {
+      external: ['better-sqlite3', 'pdf-parse', 'pdfjs-dist'],
+    },
+  },
+
   runtimeConfig: {
     inesaJwtSecret: process.env.INESA_JWT_SECRET || 'inesa-dev-secret-change-me',
     inesaAdminEmail: process.env.INESA_ADMIN_EMAIL || 'admin@inesa.com',

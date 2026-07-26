@@ -1,9 +1,75 @@
 import { readFile } from 'node:fs/promises'
-import { PDFParse } from 'pdf-parse'
 
 const CHARS_PER_PAGE = 2800
 
+/**
+ * pdf-parse / pdfjs-dist touch browser globals at import time.
+ * Polyfill only when we actually parse a PDF (not on every cold start).
+ */
+function ensurePdfJsGlobals() {
+  const g = globalThis as typeof globalThis & {
+    DOMMatrix?: unknown
+    ImageData?: unknown
+    Path2D?: unknown
+  }
+
+  if (typeof g.DOMMatrix === 'undefined') {
+    g.DOMMatrix = class DOMMatrix {
+      a = 1
+      b = 0
+      c = 0
+      d = 1
+      e = 0
+      f = 0
+      m11 = 1
+      m12 = 0
+      m21 = 0
+      m22 = 1
+      m41 = 0
+      m42 = 0
+      constructor(_init?: string | number[]) {}
+      multiplySelf() {
+        return this
+      }
+      inverse() {
+        return this
+      }
+      transformPoint(p: { x?: number; y?: number } = {}) {
+        return { x: p.x ?? 0, y: p.y ?? 0, z: 0, w: 1 }
+      }
+    }
+  }
+
+  if (typeof g.ImageData === 'undefined') {
+    g.ImageData = class ImageData {
+      data: Uint8ClampedArray
+      width: number
+      height: number
+      constructor(dataOrWidth: Uint8ClampedArray | number, widthOrHeight?: number, height?: number) {
+        if (typeof dataOrWidth === 'number') {
+          this.width = dataOrWidth
+          this.height = widthOrHeight ?? 0
+          this.data = new Uint8ClampedArray(this.width * this.height * 4)
+        } else {
+          this.data = dataOrWidth
+          this.width = widthOrHeight ?? 0
+          this.height = height ?? 0
+        }
+      }
+    }
+  }
+
+  if (typeof g.Path2D === 'undefined') {
+    g.Path2D = class Path2D {
+      constructor(_path?: unknown) {}
+    }
+  }
+}
+
 export async function extractPdfText(filePath: string) {
+  ensurePdfJsGlobals()
+  // Dynamic import keeps pdfjs out of SSR/API cold starts for unrelated routes.
+  const { PDFParse } = await import('pdf-parse')
   const buffer = await readFile(filePath)
   const parser = new PDFParse({ data: buffer })
   try {
