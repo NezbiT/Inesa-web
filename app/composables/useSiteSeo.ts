@@ -3,6 +3,15 @@ const OG_IMAGE = `${SITE_URL}/og-image.jpg`
 const DEFAULT_DESCRIPTION =
   'INESA — Instituto de Evaluación Sensorial Alimentos. Evaluación sensorial, ciencia del consumidor y capacitaciones. Houston, TX, USA.'
 
+function isLocalHost(host: string): boolean {
+  return (
+    host.startsWith('localhost') ||
+    host.startsWith('127.0.0.1') ||
+    host.startsWith('0.0.0.0') ||
+    host.endsWith('.local')
+  )
+}
+
 export function useSiteSeo(options?: {
   title?: string
   description?: string
@@ -13,7 +22,21 @@ export function useSiteSeo(options?: {
 }) {
   const { t, locale } = useI18n()
   const route = useRoute()
-  const requestURL = useRequestURL()
+  const config = useRuntimeConfig()
+  // Capture request URL once in setup (not inside nested helpers) for SSR/prerender safety.
+  const requestURL = import.meta.server ? useRequestURL() : null
+  const configuredOrigin = String(config.public.siteUrl || SITE_URL).replace(/\/$/, '') || SITE_URL
+
+  const siteOrigin = computed(() => {
+    // Prerender / local SSR often reports localhost — never publish that as canonical.
+    if (import.meta.server && requestURL) {
+      const host = requestURL.host || ''
+      if (!isLocalHost(host) && requestURL.protocol && requestURL.host) {
+        return `${requestURL.protocol}//${requestURL.host}`.replace(/\/$/, '')
+      }
+    }
+    return configuredOrigin
+  })
 
   const title = computed(
     () => options?.title || `${t('site.title')} — ${t('site.subtitle')}`,
@@ -21,11 +44,8 @@ export function useSiteSeo(options?: {
   const description = computed(() => options?.description || t('seo.defaultDescription') || DEFAULT_DESCRIPTION)
   const path = computed(() => options?.path || route.path || '/')
   const canonical = computed(() => {
-    const base = import.meta.server
-      ? `${requestURL.protocol}//${requestURL.host}`
-      : SITE_URL
     const clean = path.value.startsWith('/') ? path.value : `/${path.value}`
-    return `${base.replace(/\/$/, '')}${clean === '/' ? '' : clean}` || SITE_URL
+    return `${siteOrigin.value}${clean === '/' ? '' : clean}`
   })
   const image = computed(() => options?.image || OG_IMAGE)
   const ogLocale = computed(() => {
@@ -40,9 +60,11 @@ export function useSiteSeo(options?: {
       lang: locale.value,
     },
     meta: [
-      { name: 'description', content: description.value },
+      // Keep viewport first in dynamic head so mobile crawlers always see it
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+      { name: 'description', content: description.value },
       { name: 'theme-color', content: '#e94f1d' },
+      { name: 'mobile-web-app-capable', content: 'yes' },
       { name: 'format-detection', content: 'telephone=yes' },
       ...(options?.noindex ? [{ name: 'robots', content: 'noindex, nofollow' }] : []),
       // Open Graph
@@ -82,7 +104,7 @@ export function useLocalBusinessSchema() {
       name: 'INESA — Instituto de Evaluación Sensorial Alimentos',
       alternateName: 'INESA Institute',
       url: 'https://inesa.institute',
-      logo: 'https://inesa.institute/logo-inesa.png',
+      logo: 'https://inesa.institute/logo-inesa.svg',
       image: 'https://inesa.institute/og-image.jpg',
       description:
         'Instituto de evaluación sensorial y ciencia del consumidor para la industria alimentaria y productos de consumo.',

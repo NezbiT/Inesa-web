@@ -3,11 +3,24 @@ const props = withDefaults(
   defineProps<{
     variant?: 'emblem' | 'full'
     title?: string
+    /** Mark as LCP candidate on above-the-fold hero usage */
+    priority?: boolean
   }>(),
-  { variant: 'full', title: 'INESA' },
+  { variant: 'full', title: 'INESA', priority: false },
 )
 
 const layers = '/images/branding/logo-layers'
+
+// Emblem is always in the sticky header (above the fold) — keep it eager.
+const loading = computed((): 'eager' | 'lazy' =>
+  props.priority || props.variant === 'emblem' ? 'eager' : 'lazy',
+)
+const fetchpriority = computed((): 'high' | 'auto' | 'low' =>
+  props.priority ? 'high' : 'auto',
+)
+const decoding = computed((): 'sync' | 'async' =>
+  props.priority ? 'sync' : 'async',
+)
 </script>
 
 <template>
@@ -17,19 +30,53 @@ const layers = '/images/branding/logo-layers'
     role="img"
     :aria-label="title"
   >
-    <div class="logo-hover__frame">
-      <img
-        :src="`${layers}/logo-closed.png`"
-        alt=""
-        class="logo-hover__base"
-        draggable="false"
-      />
-      <img
-        :src="`${layers}/green-only.png`"
-        alt=""
-        class="logo-hover__green"
-        draggable="false"
-      />
+    <!-- Compact top-bar emblem: tiny assets instead of full 400KB logo PNG -->
+    <div v-if="props.variant === 'emblem'" class="logo-hover__frame">
+      <picture>
+        <source type="image/webp" :srcset="`${layers}/emblem-40.webp`">
+        <img
+          :src="`${layers}/emblem-40.png`"
+          alt=""
+          class="logo-hover__base logo-hover__base--emblem"
+          width="40"
+          height="40"
+          :loading="loading"
+          :decoding="decoding"
+          :fetchpriority="fetchpriority"
+          draggable="false"
+        >
+      </picture>
+    </div>
+
+    <!-- Full brand mark used in hero / marketing blocks -->
+    <div v-else class="logo-hover__frame">
+      <picture>
+        <source type="image/webp" :srcset="`${layers}/logo-closed.webp`">
+        <img
+          :src="`${layers}/logo-closed.png`"
+          alt=""
+          class="logo-hover__base"
+          width="300"
+          height="240"
+          :loading="loading"
+          :decoding="decoding"
+          :fetchpriority="fetchpriority"
+          draggable="false"
+        >
+      </picture>
+      <picture class="logo-hover__green">
+        <source type="image/webp" :srcset="`${layers}/green-only.webp`">
+        <img
+          :src="`${layers}/green-only.png`"
+          alt=""
+          width="300"
+          height="240"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+          draggable="false"
+        >
+      </picture>
     </div>
   </div>
 </template>
@@ -46,6 +93,7 @@ const layers = '/images/branding/logo-layers'
   width: 100%;
 }
 
+.logo-hover__frame :deep(picture),
 .logo-hover__frame img {
   display: block;
   height: auto;
@@ -59,12 +107,23 @@ const layers = '/images/branding/logo-layers'
   z-index: 1;
 }
 
+.logo-hover__base--emblem {
+  height: 40px;
+  object-fit: contain;
+  width: 40px;
+}
+
 .logo-hover__green {
   inset: 0;
   opacity: 1;
   position: absolute;
   transition: opacity var(--close-ms) ease;
   z-index: 2;
+}
+
+.logo-hover__green :deep(img) {
+  height: auto;
+  width: 100%;
 }
 
 .logo-hover--full {
@@ -80,12 +139,6 @@ const layers = '/images/branding/logo-layers'
 .logo-hover--emblem .logo-hover__frame {
   height: 100%;
   overflow: hidden;
-}
-
-.logo-hover--emblem .logo-hover__frame img {
-  height: 178%;
-  object-fit: cover;
-  object-position: top center;
 }
 
 .logo-hover:hover .logo-hover__green,

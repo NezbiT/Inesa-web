@@ -6,7 +6,14 @@ const { user, logout, isAdmin } = useAuth()
   <div class="lms-shell lms-shell--learn">
     <header class="lms-learn-header">
       <NuxtLink to="/learn" class="lms-learn-header__brand">
-        <img src="/logo-inesa.png" alt="INESA" width="40" height="40" />
+        <img
+          src="/images/branding/logo-layers/emblem-40.png"
+          alt="INESA"
+          width="40"
+          height="40"
+          loading="eager"
+          decoding="async"
+        />
         <span>INESA Academy</span>
       </NuxtLink>
 

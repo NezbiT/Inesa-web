@@ -8,8 +8,8 @@ onMounted(() => fetchUser())
   <header class="lms-academy-topbar">
     <NuxtLink to="/academy" class="lms-academy-topbar__brand">
       <UiResponsiveImage
-        src="/logo-inesa.png"
-        webp-src="/logo-inesa.webp"
+        src="/images/branding/logo-layers/emblem-40.png"
+        webp-src="/images/branding/logo-layers/emblem-40.webp"
         alt=""
         width="28"
         height="28"

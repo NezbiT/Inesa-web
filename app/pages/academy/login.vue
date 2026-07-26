@@ -96,8 +96,8 @@ async function onSubmit() {
   <div class="lms-login">
     <div class="lms-login__card">
       <UiResponsiveImage
-        src="/logo-inesa.png"
-        webp-src="/logo-inesa.webp"
+        src="/images/branding/logo-layers/logo-closed.png"
+        webp-src="/images/branding/logo-layers/logo-closed.webp"
         alt="INESA"
         width="96"
         height="96"

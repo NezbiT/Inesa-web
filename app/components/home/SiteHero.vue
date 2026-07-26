@@ -19,6 +19,7 @@ const { t } = useI18n()
         <BrandingLogoInesaAnimated
           variant="full"
           :title="t('site.title')"
+          priority
           class="site-hero__logo"
         />
       </div>

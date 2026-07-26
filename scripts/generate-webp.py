@@ -33,10 +33,35 @@ def to_webp(
 
 def main() -> None:
     to_webp(ROOT / "fondo.jpg", quality=72, max_side=1920)
+    to_webp(ROOT / "fondo.jpg", ROOT / "fondo-mobile.webp", quality=70, max_side=960)
     to_webp(ROOT / "logo-inesa.png", quality=85, max_side=512)
     branding_fondo = ROOT / "images" / "branding" / "fondo.jpg"
     if branding_fondo.exists():
         to_webp(branding_fondo, quality=72, max_side=1920)
+        to_webp(
+            branding_fondo,
+            ROOT / "images" / "branding" / "fondo-mobile.webp",
+            quality=70,
+            max_side=960,
+        )
+
+    # Hero / emblem logo layers (keep display sizes small for mobile LCP)
+    layers = ROOT / "images" / "branding" / "logo-layers"
+    if layers.exists():
+        for name in ("logo-closed.png", "logo-open.png", "green-only.png"):
+            src = layers / name
+            if src.exists():
+                to_webp(src, quality=82, max_side=600)
+        emblem = layers / "emblem-closed.png"
+        if emblem.exists():
+            img = Image.open(emblem).convert("RGBA")
+            side = min(img.size)
+            img = img.crop((0, 0, side, side))
+            img.thumbnail((128, 128), Image.Resampling.LANCZOS)
+            dest = layers / "emblem-40.webp"
+            img.save(dest, "WEBP", quality=85, method=6)
+            img.save(layers / "emblem-40.png", "PNG", optimize=True)
+            print(f"OK emblem-40 ({dest.stat().st_size // 1024}KB)")
 
     featured = ROOT / "images" / "gallery" / "featured"
     if featured.exists():

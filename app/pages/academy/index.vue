@@ -75,8 +75,8 @@ async function onCourseAction(course: CatalogCourse) {
   <div class="lms-academy">
     <section class="lms-academy-hero">
       <UiResponsiveImage
-        src="/logo-inesa.png"
-        webp-src="/logo-inesa.webp"
+        src="/images/branding/logo-layers/logo-closed.png"
+        webp-src="/images/branding/logo-layers/logo-closed.webp"
         alt="INESA"
         width="72"
         height="72"

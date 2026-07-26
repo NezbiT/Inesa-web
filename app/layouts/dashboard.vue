@@ -20,7 +20,14 @@ function isActive(path: string) {
   <div class="lms-shell lms-shell--dashboard">
     <aside class="lms-sidebar">
       <NuxtLink to="/" class="lms-sidebar__brand">
-        <img src="/logo-inesa.png" alt="INESA" width="48" height="48" />
+        <img
+          src="/images/branding/logo-layers/emblem-40.png"
+          alt="INESA"
+          width="48"
+          height="48"
+          loading="eager"
+          decoding="async"
+        />
         <div>
           <strong>INESA Academy</strong>
           <span>Panel instructor</span>

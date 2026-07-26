@@ -102,11 +102,14 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'es' },
       meta: [
         { charset: 'utf-8' },
+        // Must stay early in <head> for mobile crawlers / Lighthouse
         {
           name: 'viewport',
           content: 'width=device-width, initial-scale=1, viewport-fit=cover',
         },
         { name: 'theme-color', content: '#e94f1d' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
         {
           name: 'description',
           content:
@@ -138,17 +141,42 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'canonical', href: 'https://inesa.institute' },
-        { rel: 'icon', type: 'image/png', href: '/logo-inesa.png' },
-        { rel: 'apple-touch-icon', href: '/logo-inesa.png' },
+        // Light icons (old logo-inesa.png was ~428KB)
+        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        // LCP: hero logo webp on home (also helps first paint on marketing pages)
+        {
+          rel: 'preload',
+          as: 'image',
+          href: '/images/branding/logo-layers/logo-closed.webp',
+          type: 'image/webp',
+          fetchpriority: 'high',
+        },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         {
           rel: 'preconnect',
           href: 'https://fonts.gstatic.com',
           crossorigin: '',
         },
+        // Non-blocking webfonts — system fonts paint immediately
+        {
+          rel: 'preload',
+          as: 'style',
+          href: 'https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&family=Mulish:wght@300;400;700&display=swap',
+        },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&family=Muli:wght@300;400;700&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&family=Mulish:wght@300;400;700&display=swap',
+          media: 'print',
+          onload: "this.media='all'",
+        },
+      ],
+      noscript: [
+        {
+          children:
+            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&family=Mulish:wght@300;400;700&display=swap">',
         },
       ],
     },
