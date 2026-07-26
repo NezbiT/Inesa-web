@@ -42,5 +42,8 @@
     "storybook": "^10.4.6",
     "vitest": "^4.1.9",
     "wallace-cli": "^4.0.2"
+  },
+  "overrides": {
+    "svgo": ">=4.0.2"
   }
 }
