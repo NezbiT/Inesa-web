@@ -11,7 +11,7 @@ const values = useLocaleArray<{ title: string; text: string }>('about.values')
       <div class="about-intro panel">
         <div class="about-intro__image">
           <img
-            src="/images/gallery/featured/featured-09.jpg"
+            src="/images/gallery/featured/featured-05.jpg"
             :alt="t('gallery.photoAlt', { n: 9 })"
             loading="lazy"
           >

@@ -46,7 +46,7 @@ const homeHighlights = useLocaleArray<{ stat: string; label: string }>('home.hig
       <section class="about-split panel">
         <div class="about-split__media">
           <img
-            src="/images/gallery/featured/featured-04.jpg"
+            src="/images/gallery/featured/featured-02.jpg"
             :alt="t('gallery.photoAlt', { n: 4 })"
             loading="lazy"
           >
