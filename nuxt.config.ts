@@ -91,7 +91,8 @@ export default defineNuxtConfig({
     aiProvider: process.env.AI_PROVIDER || 'gemini',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://inesa.institute',
-      // Set NUXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXX on Vercel to enable GA4
+      // Set either on Vercel: NUXT_PUBLIC_GA_ID or NUXT_PUBLIC_GA_MEASUREMENT_ID
+      gaId: process.env.NUXT_PUBLIC_GA_ID || '',
       gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
     },
   },
